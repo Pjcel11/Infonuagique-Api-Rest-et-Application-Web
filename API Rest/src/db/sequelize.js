@@ -5,11 +5,16 @@ const { Sequelize, DataTypes } = require('sequelize')
 //const UserModel = require('../models/user') //on importe le modele
 //const pokemons = require('./mock-pokemon')
 //const bcrypt = require('bcrypt') // pour crypter des trucs si on fait le login
+const EmployeesModel= require('../models/employees')
+const JobsModel= require('../models/jobs')
+const SalaryGridModel=require ('../models/salarygrid')
 
 let sequelize 
 /* on init sequelize et on le paramètre juste en dessous selon que 
 Selon qu'on est en mode prod ou en mode Dev
 */
+
+
 /* // Cette partie du code servira si on utilise un hébergeur pour lier à MariaDb
 if(process.env.NODE_ENV === 'production') {
   sequelize = new Sequelize('bgmtfju5p8qojk1q', 't08pq19sl8lowv9d', 'fptu0v27o9bahukl', {
@@ -38,6 +43,10 @@ if(process.env.NODE_ENV === 'production') {
 const Pokemon = PokemonModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes) // on l'instancie
 */
+
+const Employees = EmployeesModel(sequelize,DataTypes)
+const Jobs = JobsModel(sequelize, DataTypes)
+const Salary= SalaryGridModel(sequelize,DataTypes)
 
 //on fait la liaison entre les modèles et la base de donnée
 // on initie la Base de Donnée au démarrage (peut etre modifier le code pour ne pas forcément le faire en production)
