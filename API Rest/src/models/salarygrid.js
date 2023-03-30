@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-        grossIndex: {
-            type: DataTypes.INTEGER,
-			allowNull: false
-        },
         increasedIndex: {
             type: DataTypes.INTEGER,
 			allowNull: false
@@ -27,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         grossSalary: {
             type: DataTypes.DOUBLE,
-			allowNull: false
+			allowNull: true
         }
 	}, {
 		timestamps: false
