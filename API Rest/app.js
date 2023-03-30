@@ -1,12 +1,10 @@
-// Packages
+// Packages & files
 const express = require('express');
 const morgan = require('morgan');
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const { initDb } = require('body-parser');
-
-// External files
-// const sequelize = require('./src/db/sequelize');
+const sequelize = require('./src/db/sequelize');
 
 // App configuration
 const app = express();
@@ -18,8 +16,8 @@ app
     .use(morgan('dev'))
     .use(bodyParser.json());
 
-// Initialise databases
-// sequelize.initDb();
+// Initialise database
+sequelize.initDb();
 
 // Endpoints
 require('./src/routes/default')(app);

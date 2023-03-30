@@ -1,6 +1,27 @@
 const employeesTemplate = [
-
-]
+    {
+        firstName: 'Pierre',
+        lastName: 'LEFEVRE',
+        email: 'plefevre1@etu.uqac.ca',
+        jobId: 1,
+        seniority: Date.parse('2022-01-01')
+    },
+    {
+        firstName: 'Pierre-Jean',
+        lastName: 'MARTIN',
+        email: 'pjmartin@etu.uqac.ca',
+        jobId: 1,
+        seniority: Date.parse('2020-06-15')
+    },
+    {
+        firstName: 'Martin',
+        lastName: 'CABOTTE',
+        email: 'martinc@gmail.com',
+        jobId: 2,
+        seniority: Date.parse('2018-03-04')
+    },
+    
+];
 
 const salariesTemplate = [
     {
@@ -71,10 +92,10 @@ const jobsTemplate = [
     },
     {
         id: 2,
-        label: "Ingénieur hospitalier en chef de classe"
+        label: "Ingénieur hospitalier en chef"
     }
-]
+];
    
-module.exports = salariesTemplate;
-module.exports = employeesTemplate;
-module.exports = jobsTemplate;
+module.exports = { 
+    salariesTemplate, employeesTemplate, jobsTemplate
+};

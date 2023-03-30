@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-	return sequelize.define('salary', {
+	return sequelize.define('salaryGrid', {
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
