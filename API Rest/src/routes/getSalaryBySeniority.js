@@ -37,11 +37,11 @@ module.exports = (app) => {
                         }
                     })
                     .then(g => {
-                          const message = 'Salary found and returned.'
+                          const message = 'Salary fetched successfully.'
                          res.status(200).json({status:200, message, data: g})
                     })
                     .catch(error => {
-                         const message = `Salary could not be found or returned. Please retry.`
+                         const message = `Salary could not be fetched. Please retry.`
                           res.status(500).json({status:500, message, data: error })
                     });
                 }
@@ -53,22 +53,22 @@ module.exports = (app) => {
                         }
                     })
                     .then(g => {
-                          const message = 'Salary found and returned.'
+                          const message = 'Salary fetched successfully.'
                          res.status(200).json({status:200, message, data: g})
                     })
                     .catch(error => {
-                         const message = `Salary could not be found or returned. Please retry.`
+                         const message = `Salary could not be fetched. Please retry.`
                           res.status(500).json({status:500, message, data: error })
                     });
                 }
             })
             .catch(error => {
-                const message = `Salary count could not be found or returned. Please retry.`
+                const message = `Salary count could not be fetched. Please retry.`
                 res.status(500).json({status:500, message, data: error })
             });
         })
         .catch(error => {
-            const message = `Minimum salary could not be found or returned. Please retry.`
+            const message = `Minimum salary could not be fetched. Please retry.`
             res.status(500).json({status:500, message, data: error })
         });  
     })
