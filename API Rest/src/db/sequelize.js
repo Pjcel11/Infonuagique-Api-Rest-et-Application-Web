@@ -42,7 +42,8 @@ const initDb = () => {
 				lastName: employee.lastName,
 				email: employee.email,
 				jobId: employee.jobId,
-				seniority: employee.seniority
+				seniority: employee.seniority,
+				level: employee.level
 			});
 		})
 
@@ -61,5 +62,5 @@ const initDb = () => {
 
 // Exmport the init function 
 module.exports = { 
-	initDb, employees, jobs, salaryGrid
+	initDb, employees, jobs, salaryGrid, sequelize
 };
