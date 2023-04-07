@@ -5,7 +5,7 @@ module.exports = (app) => {
     app.get('/salarygrid/:id/:months/:level',(req, res) => {
 
         salaryGrid.findAll({ 
-            attributes: [[sequelize.fn('MIN', sequelize.col('duratioonMonths')), 'minDuration']], 
+            attributes: [[sequelize.fn('MIN', sequelize.col('durationMonths')), 'minDuration']], 
             where: {
                 jobId: req.params.id,
                 durationMonths: {

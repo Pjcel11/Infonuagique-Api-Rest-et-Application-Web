@@ -25,7 +25,7 @@ require('./src/routes/getAllEmployees')(app);
 require('./src/routes/getAllJobs')(app);
 require('./src/routes/getSalaryGridByJobId')(app);
 require('./src/routes/getSalaryBySeniority')(app);
-require('./src/routes/postEmploye')(app);
+require('./src/routes/postEmployee')(app);
 
 // Listen to port
 app.listen(port, () => console.log(`App launched on http://localhost:${port}`));
