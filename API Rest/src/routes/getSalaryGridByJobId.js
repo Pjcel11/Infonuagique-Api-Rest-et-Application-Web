@@ -1,11 +1,9 @@
-const {salaryGrid} = require('../db/sequelize')
-const {Op} = require('sequelize')
+const {salaryGrid} = require('../db/sequelize');
+const {Op} = require('sequelize');
 
 module.exports = (app) => {
     app.get('/salaryGrid',(req, res) => {
-        salaryGrid.findAll({ 
-            attributes : ['id','jobId','level','index','salary'],
-            order: ['id']})
+        salaryGrid.findAll()
         .then(e => {
             const message = 'La grille des salaires a bien été récupéré.'
             res.status(200).json({status:200, message, data: e })
