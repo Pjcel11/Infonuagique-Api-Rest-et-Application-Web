@@ -6,12 +6,11 @@ module.exports = (app) => {
         salaryGrid.findAll({where: 
             {jobId: {[Op.eq]: req.params.jobid}}})
         .then(e => {
-            const message = 'La grille des salaires a bien été récupéré.'
+            const message = 'Salary grid fetched successfully.'
             res.status(200).json({status:200, message, data: e })
         })
         .catch(error => {
-            const message = `La grille des salaires n'a pas pu être récupéré. 
-                            Réessayez dans quelques instants.`
+            const message = `Salary grid could not be fetched. Please retry.`
             res.status(500).json({status:500, message, data: error })
         })
     })
