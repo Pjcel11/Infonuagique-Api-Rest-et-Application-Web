@@ -3,10 +3,10 @@ const { employees } = require('../db/sequelize')
 
 
 module.exports = (app) => {
-  app.post('/employees',auth, (req, res) => {
+  app.post('/employees', (req, res) => { 
     employees.create(req.body)
       .then(emp => {
-        const message = `L'employé' ${req.body.firstname} ${req.body.lastname} a bien été créé.`
+        const message = `L'employé' ${req.body.firstName} ${req.body.lastName} a bien été créé.`
         res.status(200).json({ status: 200,message, data: emp })
       })
       .catch( error => {
