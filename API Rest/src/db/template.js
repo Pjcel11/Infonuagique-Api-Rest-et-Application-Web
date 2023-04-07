@@ -4,21 +4,24 @@ const employeesTemplate = [
         lastName: 'LEFEVRE',
         email: 'plefevre1@etu.uqac.ca',
         jobId: 1,
-        seniority: Date.parse('2022-01-01')
+        seniority: Date.parse('2022-01-01'),
+        level: 1
     },
     {
         firstName: 'Pierre-Jean',
         lastName: 'MARTIN',
         email: 'pjmartin@etu.uqac.ca',
         jobId: 1,
-        seniority: Date.parse('2020-06-15')
+        seniority: Date.parse('2020-06-15'),
+        level: 4
     },
     {
         firstName: 'Martin',
         lastName: 'CABOTTE',
         email: 'martinc@gmail.com',
         jobId: 2,
-        seniority: Date.parse('2018-03-04')
+        seniority: Date.parse('2018-03-04'),
+        level: 9
     },
     
 ];

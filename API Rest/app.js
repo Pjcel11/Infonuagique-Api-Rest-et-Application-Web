@@ -24,6 +24,7 @@ require('./src/routes/default')(app);
 require('./src/routes/getAllEmployees')(app);
 require('./src/routes/getAllJobs')(app);
 require('./src/routes/getSalaryGridByJobId')(app);
+require('./src/routes/getSalaryBySeniority')(app);
 require('./src/routes/postEmploye')(app);
 
 // Listen to port
