@@ -22,6 +22,7 @@ sequelize.initDb();
 // Endpoints
 require('./src/routes/default')(app);
 require('./src/routes/getAllEmployees')(app);
+require('./src/routes/getAllJobs')(app);
 
 // Listen to port
 app.listen(port, () => console.log(`App launched on http://localhost:${port}`));
