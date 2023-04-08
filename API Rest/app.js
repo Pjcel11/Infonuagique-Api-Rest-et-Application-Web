@@ -28,6 +28,7 @@ require('./src/routes/getSalaryBySeniority')(app);
 require('./src/routes/postEmployee')(app);
 //require('./src/routes/postJob')(app);
 require('./src/routes/putEmploye')(app);
+require('./src/routes/putSalary')(app);
 
 
 // Listen to port
