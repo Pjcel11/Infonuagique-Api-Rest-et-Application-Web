@@ -22,7 +22,7 @@ sequelize.initDb();
 // Endpoints
 require('./src/routes/default')(app);
 require('./src/routes/delEmployeById')(app);
-//require('./src/routes/delJobById')(app);
+require('./src/routes/delJobById')(app);
 require('./src/routes/getAllEmployees')(app);
 require('./src/routes/getAllJobs')(app);
 require('./src/routes/getSalaryGridByJobId')(app);
