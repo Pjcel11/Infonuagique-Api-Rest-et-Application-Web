@@ -15,3 +15,6 @@ $(document).ready(function() {
         }
     })
 });
+
+// Path: Website\index.js
+// Compare this snippet from API Rest\src\routes\delEmployeById.js:
