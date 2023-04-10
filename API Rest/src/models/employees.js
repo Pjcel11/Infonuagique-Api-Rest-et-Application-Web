@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false
 		},
 		jobId: {
-			type: DataTypes.STRING,
+			type: DataTypes.INTEGER,
 			allowNull: false
 		},
 		seniority: {

@@ -1,8 +1,8 @@
-const { employees } = require ('../db/sequelize');
+const { employees, jobs } = require ('../db/sequelize');
 
 module.exports = (app) => {
     app.get('/employees',(req, res) => {
-        employees.findAll({ order: ['id'] }) // Order results by ID
+        employees.findAll({ order: ['id'], include: jobs }) // Order results by ID
         .then(e => {
           	const message = 'Employee list fetched successfully'
          	res.status(200).json({status:200, message, data: e })

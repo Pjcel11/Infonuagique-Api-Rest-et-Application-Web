@@ -22,6 +22,10 @@ const employees = employeesModel(sequelize, DataTypes);
 const jobs = jobsModel(sequelize, DataTypes);
 const salaryGrid = salaryGridModel(sequelize, DataTypes);
 
+// FK on employee.jobId
+jobs.hasOne(employees);
+employees.belongsTo(jobs);
+
 // Initialize database function
 const initDb = () => {
 	return sequelize.sync({force: true}).then(_ => {
@@ -35,6 +39,14 @@ const initDb = () => {
 			});
 		})
 
+		// Create and fill jobs table
+		jobsTemplate.map(job => {
+			jobs.create({
+				id: job.id,
+				label: job.label
+			});
+		})
+
 		// Create and fill employees table
 		employeesTemplate.map(employee => {
 			employees.create({
@@ -44,14 +56,6 @@ const initDb = () => {
 				jobId: employee.jobId,
 				seniority: employee.seniority,
 				level: employee.level
-			});
-		})
-
-		// Create and fill jobs table
-		jobsTemplate.map(job => {
-			jobs.create({
-				id: job.id,
-				label: job.label
 			});
 		})
 
