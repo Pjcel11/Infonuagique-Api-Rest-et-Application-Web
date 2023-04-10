@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
 		seniority: {
 			type: DataTypes.DATEONLY,
 			allowNull: false
-		},level: {
+		},
+		level: {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		}

@@ -13,22 +13,58 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
+
     <script type="module" src="index.js"></script>
 </head>
 
 <body>
-    <div id="container" class="container">
 
+    <div id="containter" class="container">
         <h1 class="display-3 text-center">Employés et Salaires</h1>
 
-    </div>
-    <div>
-        <button id="addEmploye" class="btn btn-primary">Ajouter un employé</button>
-        <button id="addSalary" class="btn btn-primary">Ajouter un salaire</button>
-        <button id="getAllEmployees" class="btn btn-primary">Afficher tous les employés</button>
-        <button id="getAllSalarys" class="btn btn-primary">Afficher tous les salaires</button>
-        <button id="getAllJobs" class="btn btn-primary">Afficher tous les intitulés de postes</button>
+        <div id="ddlDiv">
+            <label for="ddl" class="form-label">Choisissez la grille à afficher</label>
+            <select id="ddl" class="form-select w-25">
+                <option value="employees" selected>Employés</option>
+                <option value="salaries">Salaires</option>
+                <option value="jobs">Postes</option>
+            </select>
+        </div>
+
+        <div id="employeesDiv" class="employees">
+            <!-- TODO : Search bar -->
+            <table id="employeesTable">
+                    <tr id="employeesTableHeader">
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Adresse email</th>
+                        <th>Poste</th>
+                        <th>Ancienneté</th>
+                        <th>Actions</th>
+                    </tr>
+              </table>
+              <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé"><i class="fa-solid fa-user-plus"></i></button>
+        </div>
+
+        <div id="salariesDiv" class="salaries">
+            <!-- TODO : Ajouter DDL ? -->
+            <!-- TODO : Ajouter table -->
+        </div>
+
+        <div id="jobsDiv" class="jobs">
+            <table id="jobsTable">
+                <tr id="JobsTableHeader">
+                    <th>Poste</th>
+                </tr>
+          </table>
+          <button id="addJobButton" class="btn btn-primary" title="Ajouter un poste"><i class="fa-solid fa-user-plus"></i></button>
+        </div>
 
     </div>
+
 </body>
 </html>
