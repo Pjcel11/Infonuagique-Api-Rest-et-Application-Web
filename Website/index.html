@@ -27,12 +27,16 @@
         <h1 class="display-3 text-center">Employés et Salaires</h1>
 
         <div id="ddlDiv">
+            <!-- DDL de base -->
             <label for="ddl" class="form-label">Choisissez la grille à afficher</label>
             <select id="ddl" class="form-select w-25">
                 <option value="employees" selected>Employés</option>
                 <option value="salaries">Salaires</option>
                 <option value="jobs">Postes</option>
             </select>
+
+            <!-- DDL de sélection de grille de salaire -->
+            <select id="ddlSalaries" class="form-select w-25 salaries"></select>
         </div>
 
         <div id="employeesDiv" class="employees">
@@ -51,8 +55,14 @@
         </div>
 
         <div id="salariesDiv" class="salaries">
-            <!-- TODO : Ajouter DDL ? -->
-            <!-- TODO : Ajouter table -->
+            <table id="salariesTable">
+                <tr id="salariesTableHeader">
+                    <th>Echelon</th>
+                    <th>Indice Majoré</th>
+                    <th>Ancienneté (mois)</th>
+                    <th>Salarie brut</th>
+                </tr>
+          </table>
         </div>
 
         <div id="jobsDiv" class="jobs">
