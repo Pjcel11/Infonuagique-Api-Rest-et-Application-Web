@@ -35,8 +35,21 @@ $("#ddl").change(function() {
 // EMPLOYEES //
 ///////////////
 
+// Calcule la différence entre deux dates et renvoie sous forme de texte
+function dateDiff(date1, date2) {
+    // On calcule la différence en ms entre les deux dates 
+    var diff = Math.abs(Math.floor(date1 - date2));
+
+    // Définition d'un jour en ms
+    var month = 1000 * 60 * 60 * 24 * 31;
+    var years = Math.floor(diff/month/12);
+    var months = Math.floor(diff/month) - years * 12;
+
+    var text = years + " ans " + months + " mois"
+    return text
+}
+
 // Récupère la liste des employés et l'affiche dans la table des employés
-// TODO : Ajouter ancienneté plutot que date
 function getAllEmployees() {   
     // On vide la table pour actualiser les lignes
     $(".employeesRows").remove();
@@ -50,12 +63,13 @@ function getAllEmployees() {
             const employees = result.data;
             // On ajoute une ligne pour chaque employé
             for (const employee of employees) {
+                const seniority = dateDiff(Date.parse(employee.seniority), Date.now());
                 const html = `<tr id="employee-${employee.id}" class="employeesRows">
                                 <td>${employee.lastName}</td>
                                 <td>${employee.firstName}</td>
                                 <td>${employee.email}</td>
                                 <td>${employee.job.label}</td>
-                                <td>${employee.seniority}</td>
+                                <td title="${"À rejoint le " + employee.seniority}">${seniority}</td>
                                 <td>
                                     <button id="calcE-${employee.id}" class="btn btn-success calcE" data-id="${employee.id}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
                                     <button id="editE-${employee.id}" class="btn btn-warning editE" data-id="${employee.id}" title="Modifier le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-user-pen"></i></button>
@@ -106,25 +120,27 @@ function getSalariesJobs() {
     });
 }
 
-//
+// Lancée quand on change la valeur de la DDL des salaires
+// Récupère la grille de salaire en fonction de la valeur de la DDL
 $("#ddlSalaries").change(function() {
-    //
+    // On vide la table pour la reremplir avec la grille de salaire et eviter les doublons
     $(".salariesRows").remove();
 
-    //
+    // Requète AJAX à l'API
     $.ajax({
         type: "GET",
         url: apiEndpoint + "/salarygrid/" + this.value,   
         contentType: "application/json",
         success: function(result) {
             const salaries = result.data;
-            //
+            // Si l'on a rien récupéré, on affiche le message d'erreur classique
             if (salaries.length == 0) {
                 const html = `<tr id="salary-null-null" class="salariesRows">
                                 <td colspan=4>Aucune grille indiciaire trouvée pour ce poste</td>
                             </tr>`;
                 $('#salariesTable tr:last').after(html);
             } else {
+                // On ajoute chaque ligne de la grille à la table
                 for (const salary of salaries) {
                     const html = `<tr id="salary-${this.value}-${salary.id}" class="salariesRows">
                                     <td>${salary.level}</td>
