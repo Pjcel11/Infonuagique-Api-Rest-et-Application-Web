@@ -1,4 +1,5 @@
 const apiEndpoint = "http://localhost:5000";
+const indexValue = 4.85003;
 
 $(document).ready(function() {
     // Trigger DDL pour changer la div affichée au démarrage 
@@ -45,8 +46,20 @@ function dateDiff(date1, date2) {
     var years = Math.floor(diff/month/12);
     var months = Math.floor(diff/month) - years * 12;
 
-    var text = years + " ans " + months + " mois"
-    return text
+    var text = years + " ans " + months + " mois";
+    return text;
+}
+
+// Calcule la différence entre deux dates et renvoie le nombre de mois
+function getMonths(date1, date2) {
+    // On calcule la différence en ms entre les deux dates 
+    var diff = Math.abs(Math.floor(date1 - date2));
+
+    // Définition d'un jour en ms
+    var month = 1000 * 60 * 60 * 24 * 31;
+    var months = Math.floor(diff/month);
+
+    return months;
 }
 
 // Récupère la liste des employés et l'affiche dans la table des employés
@@ -63,7 +76,11 @@ function getAllEmployees() {
             const employees = result.data;
             // On ajoute une ligne pour chaque employé
             for (const employee of employees) {
+                // On ajoute des données au boutons avec les arguments "data-XXX=YYY".
+                // On peut récupérer les valeurs en jquery en faisait YYY = $(this).data("XXX")
+                // Utile pour récupérer des données sans avoir à passer par les valeurs des autres cellules
                 const seniority = dateDiff(Date.parse(employee.seniority), Date.now());
+                const months = getMonths(Date.parse(employee.seniority), Date.now());
                 const html = `<tr id="employee-${employee.id}" class="employeesRows">
                                 <td>${employee.lastName}</td>
                                 <td>${employee.firstName}</td>
@@ -71,7 +88,7 @@ function getAllEmployees() {
                                 <td>${employee.job.label}</td>
                                 <td title="${"À rejoint le " + employee.seniority}">${seniority}</td>
                                 <td>
-                                    <button id="calcE-${employee.id}" class="btn btn-success calcE" data-id="${employee.id}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
+                                    <button id="calcE-${employee.id}" class="btn btn-success calcE" data-id="${employee.id}" data-job="${employee.jobId}" data-months="${months}" data-level="${employee.level}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
                                     <button id="editE-${employee.id}" class="btn btn-warning editE" data-id="${employee.id}" title="Modifier le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-user-pen"></i></button>
                                     <button id="delE-${employee.id}" class="btn btn-danger delE" data-id="${employee.id}" title="Supprimer le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-trash"></i></button>
                                 </td>
@@ -95,6 +112,7 @@ function getAllEmployees() {
 // SALARIES //
 //////////////
 
+// Récupère les postes et les met dans la DDL pour sélection de la grille de salaire
 function getSalariesJobs() {
     // On vide la DDL
     $("#ddlSalaries").empty();
@@ -107,7 +125,6 @@ function getSalariesJobs() {
         success: function(result) {
             const jobs = result.data;
             // On ajoute une ligne pour chaque poste
-            console.log(jobs)
             for (const job of jobs) {
                 $('#ddlSalaries').append($(`<option value="${job.id}"}>${job.label}</option>`));
             }
@@ -160,6 +177,67 @@ $("#ddlSalaries").change(function() {
                                 <td colspan=4>Aucune grille indiciaire trouvée pour ce poste</td>
                             </tr>`;
             $('#salariesTable tr:last').after(html);
+        }
+    });
+});
+
+// Activée quand on clique un bouton de calcul de salaire
+// Calcule le salaire de l'employé référencé et l'affiche à l'écran
+// TODO : Afficher a l'écran plutot qu'en console
+// TODO : Enlever success si envoi en bdd ?
+// TODO : Gérer erreur
+$(document).on('click', '.calcE', function() {
+    // On récupère les infos de l'employé
+    // const employeeId = $(this).data("id");
+    const employeeLevel = $(this).data("level");
+    const employeeJobId = $(this).data("job");
+    const employeeMonths = $(this).data("months");
+    
+    // Requète AJAX à l'API
+    // On récupère la ligne de salaire associée à poste/ancienneté/échelon
+    $.ajax({
+        type: "GET",
+        url: apiEndpoint + "/salarygrid/" + employeeJobId + "/" + employeeMonths + "/" + employeeLevel,   
+        contentType: "application/json",
+        success: function(result) {
+            const salaryInfo = result.data[0];
+            var salary = 0;
+            // Si salaire non null, on a récupéré le salaire
+            // Sinon, on le calcule manuellement et on l'envoie en BDD
+            if (salaryInfo.grossSalary != null) {
+                salary = salaryInfo.grossSalary;
+            } else {
+                salary = (salaryInfo.increasedIndex * indexValue).toFixed(2);
+                // JSON de la ligne
+                const line = {
+                    "id": salaryInfo.id,
+                    "jobId": employeeJobId,
+                    "level": salaryInfo.level,
+                    "increasedIndex": salaryInfo.increasedIndex,
+                    "durationMonths": salaryInfo.durationMonths,
+                    "grossSalary": salary
+                };
+
+                // Requête AJAX à l'API
+                $.ajax({
+                    type: "PUT",
+                    url: apiEndpoint + "/salarygrid/" + salaryInfo.id,   
+                    data: JSON.stringify(line),
+                    contentType: "application/json",
+                    success: function(result) {
+                        console.log(result);
+                    },
+                    error: function(response) {
+                        console.log("API failed. See error below.");
+                        console.log(response);
+                    }
+                });
+            }
+            console.log("Salary is " + salary)
+        },
+        error: function(response) {
+            console.log("API failed. See error below.");
+            console.log(response);
         }
     });
 });
