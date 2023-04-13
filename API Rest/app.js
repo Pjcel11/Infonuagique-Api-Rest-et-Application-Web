@@ -1,6 +1,6 @@
 // Packages & files
 const express = require('express');
-const morgan = require('morgan');
+//const morgan = require('morgan'); //deleted from json according to tutorial
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const { initDb } = require('body-parser');
