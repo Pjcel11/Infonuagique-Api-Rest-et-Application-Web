@@ -23,9 +23,12 @@
 
 <body>
 
+    <!-- Container du site. Ne pas mettre les modals la dedans, mais en dessous -->
     <div id="containter" class="container">
+
         <h1 class="display-3 text-center">Employés et Salaires</h1>
 
+        <!-- Div contenant les DDL pour le choix de grille et choix de poste pour les grilles salariales -->
         <div id="ddlDiv">
             <!-- DDL de base -->
             <label for="ddl" class="form-label">Choisissez la grille à afficher</label>
@@ -39,21 +42,23 @@
             <select id="ddlSalaries" class="form-select w-25 salaries"></select>
         </div>
 
+        <!-- Div contenant la grille des employés -->
         <div id="employeesDiv" class="employees">
             <!-- TODO : Search bar -->
             <table id="employeesTable">
-                    <tr id="employeesTableHeader">
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Adresse email</th>
-                        <th>Poste</th>
-                        <th>Ancienneté</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr id="employeesTableHeader">
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse email</th>
+                    <th>Poste</th>
+                    <th>Ancienneté</th>
+                    <th>Actions</th>
+                </tr>
               </table>
               <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé"><i class="fa-solid fa-user-plus"></i></button>
         </div>
 
+        <!-- Div contenant les grilles de salaire -->
         <div id="salariesDiv" class="salaries">
             <table id="salariesTable">
                 <tr id="salariesTableHeader">
@@ -62,9 +67,10 @@
                     <th>Ancienneté (mois)</th>
                     <th>Salarie brut</th>
                 </tr>
-          </table>
+            </table>
         </div>
 
+        <!-- Div contenant la grille de poste -->
         <div id="jobsDiv" class="jobs">
             <table id="jobsTable">
                 <tr id="JobsTableHeader">
@@ -74,6 +80,42 @@
           <button id="addJobButton" class="btn btn-primary" title="Ajouter un poste"><i class="fa-solid fa-user-plus"></i></button>
         </div>
 
+    </div>
+
+    <!-- Modal pour le salaire d'un employé -->
+    <div id="salaryModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Calcul de salaire</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="salaryModalText"></p>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour la confirmation de suppression -->
+    <div id="deleteEmployeeModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Suppression d'employé</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteEmployeeModalText"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="deleteEmployeeConfirm" type="button" class="btn btn-success" data-bs-dismiss="modal">Confirmer</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Retour</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

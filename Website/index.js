@@ -88,9 +88,9 @@ function getAllEmployees() {
                                 <td>${employee.job.label}</td>
                                 <td title="${"À rejoint le " + employee.seniority}">${seniority}</td>
                                 <td>
-                                    <button id="calcE-${employee.id}" class="btn btn-success calcE" data-id="${employee.id}" data-job="${employee.jobId}" data-months="${months}" data-level="${employee.level}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
+                                    <button id="calcE-${employee.id}" class="btn btn-success calcE" data-name="${employee.lastName} ${employee.firstName}" data-job="${employee.jobId}" data-months="${months}" data-level="${employee.level}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
                                     <button id="editE-${employee.id}" class="btn btn-warning editE" data-id="${employee.id}" title="Modifier le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-user-pen"></i></button>
-                                    <button id="delE-${employee.id}" class="btn btn-danger delE" data-id="${employee.id}" title="Supprimer le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-trash"></i></button>
+                                    <button id="delE-${employee.id}" class="btn btn-danger delE" data-id="${employee.id}" data-name="${employee.lastName} ${employee.firstName}" title="Supprimer le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>`;
                 $('#employeesTable tr:last').after(html);
@@ -107,6 +107,43 @@ function getAllEmployees() {
         }
     });
 }
+
+// Activée au click sur le bouton de suppression d'un employé
+// Récupère les infos de l'employé pour les mettre dans le modal, et affiche le modal
+$(document).on('click', '.delE', function() {
+    // On récupère les infos de l'employé
+    const employeeId = $(this).data("id");
+    const employeeName = $(this).data("name");
+
+    // On set l'ID de l'employé dans le bouton et le texte du modal
+    $("#deleteEmployeeConfirm").data("id", employeeId);
+    $("#deleteEmployeeModalText").html(`Êtes-vous sûr de voulour supprimer l'employé <b>${employeeName}</b> ? Cette action est irreversible.`);
+
+    // On lance le modal
+    $("#deleteEmployeeModal").modal("show");
+});
+
+// Activée au click sur le bouton de confirmation du modal pour supprimer d'un employé
+// Supprime l'employé et l'enlève du tableau
+// TODO : Ajouter modal confirmation suppression
+$(document).on('click', '#deleteEmployeeConfirm', function() {
+    // On récupère les infos de l'employé
+    const employeeId = $(this).data("id");
+ 
+    // Requête AJAX à l'API
+    $.ajax({
+        type: "DELETE",
+        url: apiEndpoint + "/employees/" + employeeId,   
+        contentType: "application/json",
+        success: function(result) {
+            $(`#employeesTable tr#employee-${employeeId}`).remove();
+        },
+        error: function(response) {
+            console.log("API failed. See error below.");
+            console.log(response);
+        }
+    });
+});
 
 //////////////
 // SALARIES //
@@ -168,7 +205,6 @@ $("#ddlSalaries").change(function() {
                     $('#salariesTable tr:last').after(html);
                 } 
             }
-            
         },
         error: function(response) {
             console.log("API failed. See error below.");
@@ -183,12 +219,11 @@ $("#ddlSalaries").change(function() {
 
 // Activée quand on clique un bouton de calcul de salaire
 // Calcule le salaire de l'employé référencé et l'affiche à l'écran
-// TODO : Afficher a l'écran plutot qu'en console
 // TODO : Enlever success si envoi en bdd ?
 // TODO : Gérer erreur
 $(document).on('click', '.calcE', function() {
     // On récupère les infos de l'employé
-    // const employeeId = $(this).data("id");
+    const employeeName = $(this).data("name");
     const employeeLevel = $(this).data("level");
     const employeeJobId = $(this).data("job");
     const employeeMonths = $(this).data("months");
@@ -224,16 +259,14 @@ $(document).on('click', '.calcE', function() {
                     url: apiEndpoint + "/salarygrid/" + salaryInfo.id,   
                     data: JSON.stringify(line),
                     contentType: "application/json",
-                    success: function(result) {
-                        console.log(result);
-                    },
                     error: function(response) {
                         console.log("API failed. See error below.");
                         console.log(response);
                     }
                 });
             }
-            console.log("Salary is " + salary)
+            $("#salaryModalText").html(`Le salaire de ${employeeName} est <b>${salary}€.</b>`)
+            $("#salaryModal").modal('show');
         },
         error: function(response) {
             console.log("API failed. See error below.");
