@@ -8,6 +8,16 @@ const { salariesTemplate, employeesTemplate, jobsTemplate } = require('./templat
 
 // Database connection infos
 let sequelize;
+
+if (process.env.NODE_ENV=== 'production') {
+	const sequelize = new Sequelize('mah6htgt6hpzebtv','krhhykk6sjwoaalr','ku0pnu8cg2ea05ri',{
+		host: 'q0h7yf5pynynaq54.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+		dialect: 'mariadb',
+		dialectOptions: {
+			logging: true
+		}
+	})
+} else {
 sequelize = new Sequelize('api-salary', 'root', '', {
 	host: 'localhost',
 	dialect: 'mariadb',
@@ -16,6 +26,7 @@ sequelize = new Sequelize('api-salary', 'root', '', {
 	},
 	logging: false
 });
+}
 
 // Table models
 const employees = employeesModel(sequelize, DataTypes);
