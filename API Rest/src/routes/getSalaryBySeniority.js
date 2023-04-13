@@ -16,22 +16,26 @@ module.exports = (app) => {
 			raw: true
 		})
 		.then(e => {
+			console.log(e)
 			const minDuration = e[0].minDuration;
 
 			salaryGrid.findAll({ 
 				attributes: [[sequelize.fn('COUNT', sequelize.col('durationMonths')), 'levelCount']], 
 				where: {
+					jobId: req.params.id,
 					durationMonths: minDuration
 				},
 				raw: true
 			})
 			.then(f => {
 				const levelCount = f[0].levelCount;
+				console.log(f)
 
 				if (levelCount > 1) {
 					salaryGrid.findAll( {
 						attributes: ['id', 'level', 'increasedIndex', 'durationMonths', 'grossSalary'], 
 						where: {
+							jobId: req.params.id,
 							durationMonths: minDuration,
 							level: req.params.level
 						}
@@ -49,6 +53,7 @@ module.exports = (app) => {
 					salaryGrid.findAll( {
 						attributes: ['id', 'level', 'increasedIndex', 'durationMonths', 'grossSalary'], 
 						where: {
+							jobId: req.params.id,
 							durationMonths: minDuration,
 						}
 					})
