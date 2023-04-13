@@ -20,6 +20,9 @@ app
 
 // Initialise database
 sequelize.initDb();
+app.get('/', (req, res) => {
+    res.status(200).json({status: 200, message: "OK"})
+})
 
 // Endpoints
 require('./src/routes/default')(app);
