@@ -316,7 +316,7 @@ $("#ddlSalaries").change(function() {
                     const html = `<tr id="salary-${this.value}-${salary.id}" class="salariesRows">
                                     <td>${salary.level}</td>
                                     <td>${salary.increasedIndex}</td>
-                                    <td>${salary.durationMonths}</td>
+                                    <td>${salary.durationMonths == null ? "-" : salary.durationMonths}</td>
                                     <td>${salary.grossSalary == null ? "Inconnu" : salary.grossSalary}</td>
                                 </tr>`;
                     $('#salariesTable tr:last').after(html);

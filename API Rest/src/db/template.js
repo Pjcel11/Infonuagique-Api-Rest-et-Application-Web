@@ -85,6 +85,65 @@ const salariesTemplate = [
         jobId: 1,
         level: 10,
         increasedIndex: 673,
+    },
+    {
+        jobId: 2,
+        level: 1,
+        increasedIndex: 404,
+        durationMonths: 12
+    },
+    {
+        jobId: 2,
+        level: 2,
+        increasedIndex: 450,
+        durationMonths: 18
+    },
+    {
+        jobId: 2,
+        level: 3,
+        increasedIndex: 485,
+        durationMonths: 30
+    },
+    {
+        jobId: 2,
+        level: 4,
+        increasedIndex: 523,
+        durationMonths: 24
+    },
+    {
+        jobId: 2,
+        level: 5,
+        increasedIndex: 555,
+        durationMonths: 30
+    },
+    {
+        jobId: 2,
+        level: 6,
+        increasedIndex: 591,
+        durationMonths: 30
+    },
+    {
+        jobId: 2,
+        level: 7,
+        increasedIndex: 644,
+        durationMonths: 36
+    },
+    {
+        jobId: 2,
+        level: 8,
+        increasedIndex: 705,
+        durationMonths: 42
+    },
+    {
+        jobId: 2,
+        level: 9,
+        increasedIndex: 743,
+        durationMonths: 42
+    },
+    {
+        jobId: 2,
+        level: 10,
+        increasedIndex: 792
     }
 ];
 
