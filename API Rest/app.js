@@ -9,7 +9,7 @@ var cors = require('cors')
 
 // App configuration
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;  //change le port à écouter en fonction du mode dev ou prod
 
 // Start app 
 app
