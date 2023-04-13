@@ -78,7 +78,8 @@ const initDb = () => {
 		// Done
 		
 	} else {
-		return sequelize.sync({force: true}).then(_ => {
+		console.log('Online Databases are going to be filled.');
+		return sequelize.sync().then(_ => {
 			// Create and fill salarygrid table
 			salariesTemplate.map(salary => {
 				salaryGrid.create({
