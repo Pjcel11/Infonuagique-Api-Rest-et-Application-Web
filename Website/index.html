@@ -52,8 +52,8 @@
                     <th>Ancienneté</th>
                     <th>Actions</th>
                 </tr>
-              </table>
-              <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé" data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-user-plus"></i></button>
+            </table>
+            <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé" data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-user-plus"></i></button>
         </div>
 
         <!-- Div contenant les grilles de salaire -->
@@ -120,7 +120,7 @@
 
     <!-- Modal pour l'ajout d'un employé -->
     <div id="addEmployeeModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Ajout d'employé</h5>
@@ -147,10 +147,14 @@
                     <div>
                         <label for="jobAdd" class="col-form-label">Poste :</label>
                         <select id="jobAdd" class="form-select"></select>
-                    </div>  
+                    </div>
+                    <div>
+                        <label for="levelAdd" class="col-form-label">Poste :</label>
+                        <input type="number" id="levelAdd" class="form-control" value="1" min="1" max="10" step="1"></select>
+                    </div> 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Ajouter</button>
+                    <button id="addEmployeeConfirm" type="button" class="btn btn-success" data-bs-dismiss="modal">Ajouter</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
                 </div>
             </div>
