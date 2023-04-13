@@ -98,7 +98,7 @@ function getAllEmployees() {
                                 <td title="${"À rejoint le " + employee.seniority}">${seniority}</td>
                                 <td>
                                     <button id="calcE-${employee.id}" class="btn btn-success calcE" data-name="${employee.lastName} ${employee.firstName}" data-job="${employee.jobId}" data-months="${months}" data-level="${employee.level}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
-                                    <button id="editE-${employee.id}" class="btn btn-warning editE" data-id="${employee.id}" title="Modifier le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-user-pen"></i></button>
+                                    <button id="editE-${employee.id}" class="btn btn-warning editE" data-id="${employee.id}" data-lastname="${employee.lastName}" data-firstname="${employee.firstName}" data-email="${employee.email}" data-job="${employee.jobId}" data-seniority="${employee.seniority}" data-level="${employee.level}" title="Modifier le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-user-pen"></i></button>
                                     <button id="delE-${employee.id}" class="btn btn-danger delE" data-id="${employee.id}" data-name="${employee.lastName} ${employee.firstName}" title="Supprimer le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>`;
@@ -116,6 +116,111 @@ function getAllEmployees() {
         }
     });
 }
+
+// Activée au click pour ajouter un employé
+// Met le bon titre et desc au modal et l'affiche
+$(document).on('click', '#addEmployeButton', function() {
+    $("#employeeConfirm").data("type", "add");
+    $("#employeeModalTitle").html("Ajout d'employé");
+    $("#employeeModalDesc").html("Entrez les informations du nouvel employé :");
+    $("#employeeConfirm").html("Ajouter");
+    $("#employeeModal").modal("show");
+});
+
+// Activée au click pour edit un employé
+// Met le bon titre et desc au modal et l'affiche
+$(document).on('click', '.editE', function() {
+    $("#employeeConfirm").data("id", $(this).data("id"));
+    $("#employeeConfirm").data("type", "edit");
+    $("#firstName").val($(this).data("firstname"));
+    $("#lastName").val($(this).data("lastname"));
+    $("#email").val($(this).data("email"));
+    $("#date").val($(this).data("seniority"));
+    $("#job").val($(this).data("job"));
+    $("#level").val($(this).data("level"));
+
+    $("#employeeModalTitle").html("Modification d'employé");
+    $("#employeeModalDesc").html("Entrez les informations de l'employé à modifier :")
+    $("#employeeConfirm").html("Modifier");
+    $("#employeeModal").modal("show");
+});
+
+// Activée au click sur le bouton de confirmation du modal d'ajout/modif d'un employé
+// Ajoute l'employé et l'affiche dans le tableau
+// Ou modifie l'employé existant
+// TODO : verifier valeurs des employés
+$(document).on('click', '#employeeConfirm', function() {
+    // On récupere les valeurs des champs
+    const firstName = $("#firstName").val();
+    const lastName = $("#lastName").val();
+    const email = $("#email").val();
+    const date = $("#date").val();
+    const jobId = $("#job").val();
+    const level = $("#level").val();
+
+    // On recupere le type de requête à faire
+    const type = $("#employeeConfirm").data("type");
+
+    if (type == "add") {
+        // Ajout d'employé. On crée l'objet JSON
+        const employee = {
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "jobId": jobId,
+            "seniority": date,
+            "level": level
+        };
+    
+        // Requête AJAX à l'API
+        $.ajax({
+            type: "POST",
+            url: apiEndpoint + "/employees",   
+            data: JSON.stringify(employee),
+            contentType: "application/json",
+            success: function() {
+                getAllEmployees();
+                launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> a été ajouté à la base de données.`);
+            },
+            error: function(response) {
+                console.log("API failed. See error below.");
+                console.log(response);
+                launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être ajouté à la base de données. Veuillez reessayer.`);
+            }
+        });
+    } 
+    else if (type == "edit") {
+        // Modification d'employé. On récupère l'ID de l'employé à modifier
+        const id = $("#employeeConfirm").data("id");
+        // On crée l'objet JSON
+        const employee = {
+            "id": id,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "jobId": jobId,
+            "seniority": date,
+            "level": level
+        };
+
+        // Requête AJAX à l'API
+        $.ajax({
+            type: "PUT",
+            url: apiEndpoint + "/employees/" + id,   
+            data: JSON.stringify(employee),
+            contentType: "application/json",
+            success: function(response) {
+                getAllEmployees();
+                launchBlankModal("Modification d'employé", `L'employé <b>${lastName} ${firstName}</b> a été modifié avec succès.`);
+            },
+            error: function(response) {
+                console.log("API failed. See error below.");
+                console.log(response);
+                launchBlankModal("Modification d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être modifié. Veuillez reessayer.`);
+            }
+        });
+    }
+});
 
 // Activée au click sur le bouton de suppression d'un employé
 // Récupère les infos de l'employé pour les mettre dans le modal, et affiche le modal
@@ -153,46 +258,6 @@ $(document).on('click', '#deleteEmployeeConfirm', function() {
         error: function(response) {
             console.log("API failed. See error below.");
             console.log(response);
-        }
-    });
-});
-
-// Activée au click sur le bouton de confirmation du modal d'ajout d'un employé
-// Ajoute l'employé et l'affiche dans le tableau
-// TODO : verifier valeurs des employés
-// TODO : vider modal ajout si succes
-$(document).on('click', '#addEmployeeConfirm', function() {
-
-    const firstName = $("#firstNameAdd").val();
-    const lastName = $("#lastNameAdd").val();
-    const email = $("#emailAdd").val();
-    const date = $("#dateAdd").val();
-    const jobId = $("#jobAdd").val();
-    const level = $("#levelAdd").val();
-
-    const employee = {
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "jobId": jobId,
-        "seniority": date,
-        "level": level
-    };
-
-    // Requête AJAX à l'API
-    $.ajax({
-        type: "POST",
-        url: apiEndpoint + "/employees",   
-        data: JSON.stringify(employee),
-        contentType: "application/json",
-        success: function() {
-            getAllEmployees();
-            launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> a été ajouté à la base de données.`);
-        },
-        error: function(response) {
-            console.log("API failed. See error below.");
-            console.log(response);
-            launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être ajouté à la base de données. Veuillez reesayyer.`);
         }
     });
 });
@@ -363,7 +428,7 @@ function getAllJobs() {
 // Récupère la liste des postes et l'ajoute dans les select d'ajout et de modification d'employé
 function getAllJobsEmployee() {
     // On vide les select pour remettre les lignes et eviter les doublons
-    $("#jobAdd").empty();
+    $("#job").empty();
 
     // Requête AJAX à l'API
     $.ajax({
@@ -374,7 +439,7 @@ function getAllJobsEmployee() {
             const jobs = result.data;
             // On ajoute une ligne pour chaque poste
             for (const job of jobs) {
-                $('#jobAdd').append($(`<option value="${job.id}"}>${job.label}</option>`));
+                $('#job').append($(`<option value="${job.id}"}>${job.label}</option>`));
             }
         },
         error: function(response) {

@@ -53,7 +53,7 @@
                     <th>Actions</th>
                 </tr>
             </table>
-            <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé" data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-user-plus"></i></button>
+            <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé"><i class="fa-solid fa-user-plus"></i></button>
         </div>
 
         <!-- Div contenant les grilles de salaire -->
@@ -118,43 +118,43 @@
         </div>
     </div>
 
-    <!-- Modal pour l'ajout d'un employé -->
-    <div id="addEmployeeModal" class="modal fade" tabindex="-1">
+    <!-- Modal pour l'ajout ou modification d'un employé -->
+    <div id="employeeModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ajout d'employé</h5>
+                    <h5 id="employeeModalTitle" class="modal-title"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Entrez les informations sur le nouvel employé :</p>
+                    <p id="employeeModalDesc"></p>
                     <div>
-                        <label for="lastNameAdd" class="col-form-label">Nom :</label>
-                        <input type="text" class="form-control" id="lastNameAdd">
+                        <label for="lastName" class="col-form-label">Nom :</label>
+                        <input id="lastName" type="text" class="form-control">
                     </div>
                     <div>
-                        <label for="firstNameAdd" class="col-form-label">Prénom :</label>
-                        <input type="text" class="form-control" id="firstNameAdd">
+                        <label for="firstName" class="col-form-label">Prénom :</label>
+                        <input id="firstName" type="text" class="form-control">
                     </div>
                     <div>
-                        <label for="emailAdd" class="col-form-label">Adresse email :</label>
-                        <input type="text" class="form-control" id="emailAdd">
+                        <label for="email" class="col-form-label">Adresse email :</label>
+                        <input id="email" type="text" class="form-control">
                     </div>
                     <div>
-                        <label for="dateAdd" class="col-form-label">Date de début de contrat :</label>
-                        <input type="date" class="form-control" id="dateAdd">
+                        <label for="date" class="col-form-label">Date de début de contrat :</label>
+                        <input id="date" type="date" class="form-control">
                     </div>
                     <div>
-                        <label for="jobAdd" class="col-form-label">Poste :</label>
-                        <select id="jobAdd" class="form-select"></select>
+                        <label for="job" class="col-form-label">Poste :</label>
+                        <select id="job" class="form-select"></select>
                     </div>
                     <div>
-                        <label for="levelAdd" class="col-form-label">Poste :</label>
-                        <input type="number" id="levelAdd" class="form-control" value="1" min="1" max="10" step="1"></select>
+                        <label for="level" class="col-form-label">Poste :</label>
+                        <input id="level" type="number" class="form-control" value="1" min="1" max="10" step="1"></select>
                     </div> 
                 </div>
                 <div class="modal-footer">
-                    <button id="addEmployeeConfirm" type="button" class="btn btn-success" data-bs-dismiss="modal">Ajouter</button>
+                    <button id="employeeConfirm" type="button" class="btn btn-success" data-bs-dismiss="modal"></button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
                 </div>
             </div>
