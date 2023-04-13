@@ -28,7 +28,7 @@
 
         <h1 class="display-3 text-center">Employés et Salaires</h1>
 
-        <!-- Div contenant les DDL pour le choix de grille et choix de poste pour les grilles salariales -->
+        <!-- Div contenant les DropDownLists (menus déroulants) pour le choix de grille et choix de poste pour les grilles salariales -->
         <div id="ddlDiv">
             <!-- DDL de base -->
             <label for="ddl" class="form-label">Choisissez la grille à afficher</label>
@@ -118,6 +118,33 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal pour l'ajout d'un employé -->
+    <div id="addEmployeeModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Entrez les informations sur le nouvel employé</p>
+                <!-- On entre nom prénom et mail nouvel employé -->
+                <input type="text" placeholder="prenom" model="Prénom"><br>
+                <input type="text" placeholder="nom" model="Nom"><br>
+                <input type="text" placeholder="email" model="Email"><br>
+                <input type="text" placeholder="dateArriveeEntreprise" model="Date d arrivée"><br>
+                <!-- liste déroulante pour le role de l'employé -->
+                <select id="" class="form-select w-25 salaries"></select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Ajouter Employe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
 
 </body>
 </html>

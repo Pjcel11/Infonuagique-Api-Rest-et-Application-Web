@@ -1,8 +1,9 @@
 const apiEndpoint = "http://localhost:5000";
 const indexValue = 4.85003;
 
+// demarrer le site web http-server -p 3000   
 $(document).ready(function() {
-    // Trigger DDL pour changer la div affichée au démarrage 
+    // Trigger DDL pour changer la div affichée au démarrage
     $("#ddl").change();
 });
 
@@ -274,6 +275,30 @@ $(document).on('click', '.calcE', function() {
         }
     });
 });
+
+
+// Activée au click sur le bouton d'ajout d'un employé
+// Ajoute l'employé et l'affiche dans le tableau
+// Activée au click sur le bouton de confirmation du modal pour supprimer d'un employé
+// TODO : Ajouter modal confirmation d'ajout
+$(document).on('click', '#addEmployeeConfirm', function() {
+ //TODO ajouter de recuperer les trucs dans le edit in place pour les mettre dans un body et les envoyer !
+    // Requête AJAX à l'API
+    $.ajax({
+        type: "POST",
+        url: apiEndpoint + "/employees/",   
+        contentType: "application/json",
+        success: function(result) {
+            $(`#employeesTable tr#employee-${employeeId}`).add();
+        },
+        error: function(response) {
+            console.log("API failed. See error below.");
+            console.log(response);
+        }
+    });
+});
+//
+
 
 //////////
 // JOBS //
