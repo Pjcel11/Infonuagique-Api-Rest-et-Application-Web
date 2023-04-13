@@ -1,10 +1,12 @@
 const apiEndpoint = "http://localhost:5000";
 const indexValue = 4.85003;
 
-// demarrer le site web http-server -p 3000   
+// Démarrer le site web http-server -p 3000
 $(document).ready(function() {
     // Trigger DDL pour changer la div affichée au démarrage
     $("#ddl").change();
+    // Ajoute les jobs dans les modals d'ajout et modif d'employé
+    getAllJobsEmployee();
 });
 
 // S'active au changement de valeur de la DDL
@@ -32,6 +34,12 @@ $("#ddl").change(function() {
             break;
     }
 });
+
+function launchBlankModal(title, text) {
+    $("#blankModalTitle").html(title);
+    $("#blankModalText").html(text);
+    $("#blankModal").modal('show');
+}
 
 ///////////////
 // EMPLOYEES //
@@ -144,6 +152,17 @@ $(document).on('click', '#deleteEmployeeConfirm', function() {
             console.log(response);
         }
     });
+});
+
+// Activée au click sur le bouton de confirmation du modal d'ajout d'un employé
+// Ajoute l'employé et l'affiche dans le tableau
+// TODO : do
+$(document).on('click', '#addEmployeeConfirm', function() {
+    // Récupérer les valeurs des champs
+    // Créer un object JSON
+    // Faire requête à l'API
+    // Success -> trigger getAllEmployees()
+    // Error -> afficher un popup
 });
 
 //////////////
@@ -266,8 +285,7 @@ $(document).on('click', '.calcE', function() {
                     }
                 });
             }
-            $("#salaryModalText").html(`Le salaire de ${employeeName} est <b>${salary}€.</b>`)
-            $("#salaryModal").modal('show');
+            launchBlankModal("Calcul de salaire", `Le salaire de ${employeeName} est <b>${salary}€.</b>`)
         },
         error: function(response) {
             console.log("API failed. See error below.");
@@ -275,30 +293,6 @@ $(document).on('click', '.calcE', function() {
         }
     });
 });
-
-
-// Activée au click sur le bouton d'ajout d'un employé
-// Ajoute l'employé et l'affiche dans le tableau
-// Activée au click sur le bouton de confirmation du modal pour supprimer d'un employé
-// TODO : Ajouter modal confirmation d'ajout
-$(document).on('click', '#addEmployeeConfirm', function() {
- //TODO ajouter de recuperer les trucs dans le edit in place pour les mettre dans un body et les envoyer !
-    // Requête AJAX à l'API
-    $.ajax({
-        type: "POST",
-        url: apiEndpoint + "/employees/",   
-        contentType: "application/json",
-        success: function(result) {
-            $(`#employeesTable tr#employee-${employeeId}`).add();
-        },
-        error: function(response) {
-            console.log("API failed. See error below.");
-            console.log(response);
-        }
-    });
-});
-//
-
 
 //////////
 // JOBS //
@@ -331,5 +325,29 @@ function getAllJobs() {
                             <td>Aucun poste trouvé</td>
                         </tr>`;
             $('#jobsTable tr:last').after(html);        }
+    });
+}
+
+// Récupère la liste des postes et l'ajoute dans les select d'ajout et de modification d'employé
+function getAllJobsEmployee() {
+    // On vide les select pour remettre les lignes et eviter les doublons
+    $("#jobAdd").empty();
+
+    // Requête AJAX à l'API
+    $.ajax({
+        type: "GET",
+        url: apiEndpoint + "/jobs/",   
+        contentType: "application/json",
+        success: function(result) {
+            const jobs = result.data;
+            // On ajoute une ligne pour chaque poste
+            for (const job of jobs) {
+                $('#jobAdd').append($(`<option value="${job.id}"}>${job.label}</option>`));
+            }
+        },
+        error: function(response) {
+            console.log("API failed. See error below.");
+            console.log(response);
+        }
     });
 }
