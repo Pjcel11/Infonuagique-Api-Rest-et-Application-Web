@@ -4,7 +4,8 @@
   "description": "API REST avec Express pour calcul de salaire en entreprise publique",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "start": "NODE_ENV=production node app.js",
+    "dev": "NODE_ENV=development nodemon app.js"
   },
   "author": "LEFEVRE Pierre & MARTIN Pierre-Jean",
   "license": "ISC",
