@@ -14,18 +14,19 @@ const port = process.env.PORT || 5000;  //change le port à écouter en fonction
 // Start app 
 app
     .use(favicon(__dirname + '/favicon.ico'))
-    .use(morgan('dev'))
+    //.use(morgan('dev'))
     .use(bodyParser.json())
     .use(cors()); 
 
 // Initialise database
 sequelize.initDb();
+
 app.get('/', (req, res) => {
-    res.status(200).json({status: 200, message: "OK"})
-})
+    res.json('Hello, Heroku ! 👋')
+  })
 
 // Endpoints
-require('./src/routes/default')(app);
+//require('./src/routes/default')(app);
 require('./src/routes/delEmployeById')(app);
 require('./src/routes/delJobById')(app);
 require('./src/routes/getAllEmployees')(app);
