@@ -126,6 +126,7 @@ $(document).on('click', '.delE', function() {
 
     // On set l'ID de l'employé dans le bouton et le texte du modal
     $("#deleteEmployeeConfirm").data("id", employeeId);
+    $("#deleteEmployeeConfirm").data("name", employeeName);
     $("#deleteEmployeeModalText").html(`Êtes-vous sûr de voulour supprimer l'employé <b>${employeeName}</b> ? Cette action est irreversible.`);
 
     // On lance le modal
@@ -138,7 +139,8 @@ $(document).on('click', '.delE', function() {
 $(document).on('click', '#deleteEmployeeConfirm', function() {
     // On récupère les infos de l'employé
     const employeeId = $(this).data("id");
- 
+    const employeeName = $(this).data("name");
+
     // Requête AJAX à l'API
     $.ajax({
         type: "DELETE",
@@ -146,6 +148,7 @@ $(document).on('click', '#deleteEmployeeConfirm', function() {
         contentType: "application/json",
         success: function(result) {
             $(`#employeesTable tr#employee-${employeeId}`).remove();
+            launchBlankModal("Suppression d'employé", `L'employé <b>${employeeName}</b> a été supprimé de la base de données.`)
         },
         error: function(response) {
             console.log("API failed. See error below.");
@@ -156,13 +159,42 @@ $(document).on('click', '#deleteEmployeeConfirm', function() {
 
 // Activée au click sur le bouton de confirmation du modal d'ajout d'un employé
 // Ajoute l'employé et l'affiche dans le tableau
-// TODO : do
+// TODO : verifier valeurs des employés
+// TODO : vider modal ajout si succes
 $(document).on('click', '#addEmployeeConfirm', function() {
-    // Récupérer les valeurs des champs
-    // Créer un object JSON
-    // Faire requête à l'API
-    // Success -> trigger getAllEmployees()
-    // Error -> afficher un popup
+
+    const firstName = $("#firstNameAdd").val();
+    const lastName = $("#lastNameAdd").val();
+    const email = $("#emailAdd").val();
+    const date = $("#dateAdd").val();
+    const jobId = $("#jobAdd").val();
+    const level = $("#levelAdd").val();
+
+    const employee = {
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+        "jobId": jobId,
+        "seniority": date,
+        "level": level
+    };
+
+    // Requête AJAX à l'API
+    $.ajax({
+        type: "POST",
+        url: apiEndpoint + "/employees",   
+        data: JSON.stringify(employee),
+        contentType: "application/json",
+        success: function() {
+            getAllEmployees();
+            launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> a été ajouté à la base de données.`);
+        },
+        error: function(response) {
+            console.log("API failed. See error below.");
+            console.log(response);
+            launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être ajouté à la base de données. Veuillez reesayyer.`);
+        }
+    });
 });
 
 //////////////
