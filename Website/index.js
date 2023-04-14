@@ -83,6 +83,7 @@ function getAllEmployees() {
         contentType: "application/json",
         success: function(result) {
             const employees = result.data;
+            console.log(employees)
             // On ajoute une ligne pour chaque employé
             for (const employee of employees) {
                 // On ajoute des données au boutons avec les arguments "data-XXX=YYY".
@@ -121,6 +122,14 @@ function getAllEmployees() {
 // Met le bon titre et desc au modal et l'affiche
 $(document).on('click', '#addEmployeButton', function() {
     $("#employeeConfirm").data("type", "add");
+
+    $("#firstName").val("");
+    $("#lastName").val("");
+    $("#email").val("");
+    $("#date").val("");
+    $("#job").val("");
+    $("#level").val("");
+
     $("#employeeModalTitle").html("Ajout d'employé");
     $("#employeeModalDesc").html("Entrez les informations du nouvel employé :");
     $("#employeeConfirm").html("Ajouter");
@@ -132,6 +141,7 @@ $(document).on('click', '#addEmployeButton', function() {
 $(document).on('click', '.editE', function() {
     $("#employeeConfirm").data("id", $(this).data("id"));
     $("#employeeConfirm").data("type", "edit");
+
     $("#firstName").val($(this).data("firstname"));
     $("#lastName").val($(this).data("lastname"));
     $("#email").val($(this).data("email"));
@@ -240,7 +250,7 @@ $(document).on('click', '.delE', function() {
 
 // Activée au click sur le bouton de confirmation du modal pour supprimer d'un employé
 // Supprime l'employé et l'enlève du tableau
-// TODO : Ajouter modal confirmation suppression
+// TODO : gerer erreur
 $(document).on('click', '#deleteEmployeeConfirm', function() {
     // On récupère les infos de l'employé
     const employeeId = $(this).data("id");
@@ -336,7 +346,6 @@ $("#ddlSalaries").change(function() {
 
 // Activée quand on clique un bouton de calcul de salaire
 // Calcule le salaire de l'employé référencé et l'affiche à l'écran
-// TODO : Enlever success si envoi en bdd ?
 // TODO : Gérer erreur
 $(document).on('click', '.calcE', function() {
     // On récupère les infos de l'employé
@@ -426,6 +435,7 @@ function getAllJobs() {
 }
 
 // Récupère la liste des postes et l'ajoute dans les select d'ajout et de modification d'employé
+// TODO : Gérer erreur
 function getAllJobsEmployee() {
     // On vide les select pour remettre les lignes et eviter les doublons
     $("#job").empty();
@@ -448,3 +458,96 @@ function getAllJobsEmployee() {
         }
     });
 }
+
+// Déclanchée au click du bouton d'ajout d'un nouveau job
+// Nettoie et affiche le modal
+$(document).on('click', '#addJobButton', function() {
+    // On reset les champs
+    $("#jobLabel").val("");
+    $(".newJobRows").remove();
+    // On affiche le modal
+    $("#jobModal").modal("show");
+});
+
+// Déclanchée quand on clique sur le "+" du modal de nouveau job pour ajouter une nouvelle ligne de grille de salaire
+// Ajoute une nouvelle ligne
+$(document).on('click', '#jobAddLine', function() {
+    // On récupère l'ID de la ligne à ajouter
+    const id = $(this).data("id");
+    // HTML de la ligne
+    const html = `<div class="row newJobRows">
+                    <div class="col">
+                        <input id="level-${id}" type="text" class="form-control" placeholder="Echelon">
+                    </div>
+                    <div class="col">
+                        <input id="index-${id}" type="text" class="form-control" placeholder="Indice majoré">
+                    </div>
+                    <div class="col">
+                        <input id="months-${id}" type="text" class="form-control" placeholder="Ancienneté (mois)">
+                    </div>
+                </div>`;
+    // On ajoute la ligne
+    $("#jobSalaryGrid .row:last").after(html);
+    // On incrémente l'ID de 1 pour avoir un nouvel ID au prochain ajout
+    $(this).data("id", id + 1);
+});
+
+// Déclanchée quand on clique sur le bouton de confirmation d'ajout de job
+// Ajoute le job et sa grille de salaire à la BDD
+// WIP
+// TODO : gérer erreur
+$(document).on('click', '#jobConfirm', function() {
+    const label = $("#jobLabel").val();
+
+    // On crée l'objet JSON
+    const job = {
+        "label": label
+    };
+
+    // Requête AJAX à l'API
+    $.ajax({
+        type: "POST",
+        url: apiEndpoint + "/jobs",   
+        data: JSON.stringify(job),
+        contentType: "application/json",
+        success: function(result) {
+            // On récupère l'ID du job créé
+            const jobId = result.data.id;
+            // Nombre de lignes a ajouter
+            const lineNb = $("#jobAddLine").data("id");
+            // On crée l'objet JSON
+            let salaryGrid = {};
+            // On itère sur chaque ligne
+            for (let i = 0; i < lineNb; i++) {
+                // On récupère les valeurs des champs et on les ajoute dans un objet JSON
+                const salaryLine = {
+                    "jobId": jobId,
+                    "level": $(`#level-${i}`).val(),
+                    "increasedIndex": $(`#index-${i}`).val(),
+                    "durationMonths": $(`#months-${i}`).val(),
+                };
+                // On ajoute cet objet à l'objet JSON parent
+                salaryGrid[i] = salaryLine;
+            }
+
+            // Requête AJAX à l'API
+            // $.ajax({
+            //     type: "POST",
+            //     url: apiEndpoint + "/salarygrid",   
+            //     data: JSON.stringify(salaryGrid),
+            //     contentType: "application/json",
+            //     success: function(result) {
+            //         console.log(result);
+            //     },
+            //     error: function(response) {
+            //         console.log("API failed. See error below.");
+            //         console.log(response);
+            //     }
+            // });
+        },
+        error: function(response) {
+            console.log("API failed. See error below.");
+            console.log(response);
+        }
+    });
+});

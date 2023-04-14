@@ -6,7 +6,7 @@ module.exports = (app) => {
 	app.post('/jobs', (req, res) => { 
 		jobs.create(req.body)
 		.then(emp => {
-			const message = `Job '${req.body.id} ${req.body.label}' was created successfully.`
+			const message = `Job #${req.body.id} ${req.body.label}' was created successfully.`
 			res.status(200).json({ status: 200,message, data: emp })
 		})
 		.catch( error => {
@@ -16,7 +16,7 @@ module.exports = (app) => {
 			if (error instanceof UniqueConstraintError){
 				return res.status(400).json({status:400, message: error.message, data: error})
 			}
-			const message= `Jobs' list could not be fetched. Please retry.`
+			const message= `Jobs list could not be fetched. Please retry.`
 			res.status(500).json({message, data:error})
 		})
 	})
