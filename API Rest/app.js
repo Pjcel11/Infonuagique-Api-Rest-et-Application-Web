@@ -21,8 +21,6 @@ app
 // Initialise database
 sequelize.initDb();
 
-
-
 // Endpoints
 require('./src/routes/default')(app);
 require('./src/routes/delEmployeById')(app);
@@ -35,7 +33,6 @@ require('./src/routes/postEmployee')(app);
 require('./src/routes/postJob')(app);
 require('./src/routes/putEmploye')(app);
 require('./src/routes/putSalary')(app);
-
 
 // Listen to port
 app.listen(port, () => console.log(`App launched on http://localhost:${port}`));

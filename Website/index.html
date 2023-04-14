@@ -160,6 +160,49 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal pour l'ajout d'un poste -->
+    <div id="jobModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'un poste</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Libellé -->
+                    <div>
+                        <label for="jobLabel" class="col-form-label">Intitulé :</label>
+                        <input id="jobLabel" type="text" class="form-control">
+                    </div>
+
+                    <!-- Grille -->
+                    <div id="jobSalaryGrid">
+                        <div class="row">
+                            <div class="col">
+                                <input id="level-0" type="text" class="form-control" placeholder="Echelon">
+                            </div>
+                            <div class="col">
+                                <input id="index-0" type="text" class="form-control" placeholder="Indice majoré">
+                            </div>
+                            <div class="col">
+                                <input id="months-0" type="text" class="form-control" placeholder="Ancienneté (mois)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bouton ajouter ligne -->
+                    <div>
+                        <button id="jobAddLine" type="button" class="btn btn-success" data-id="1"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="jobConfirm" type="button" class="btn btn-success" data-bs-dismiss="modal">Ajouter</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                </div>
+            </div>
+        </div>
+    </div>
       
 </body>
 </html>
