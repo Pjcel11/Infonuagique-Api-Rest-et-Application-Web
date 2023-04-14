@@ -83,6 +83,7 @@ const initDb = () => {
 	} else {
 		console.log("ITS PRODUCTION MODE")
 		return sequelize.sync().then(_ => {
+			/*
 			// Create and fill salarygrid table
 			salariesTemplate.map(salary => {
 				salaryGrid.create({
@@ -112,8 +113,8 @@ const initDb = () => {
 					level: employee.level
 				});
 			})
-	
-			//console.log('Online Databases filled.');
+			*/
+			console.log('Online Databases filled.');
 	})
 	// Done
 	}
