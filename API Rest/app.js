@@ -21,12 +21,10 @@ app
 // Initialise database
 sequelize.initDb();
 
-app.get('/', (req, res) => {
-    res.json('Hello, Heroku ! 👋')
-  })
+
 
 // Endpoints
-//require('./src/routes/default')(app);
+require('./src/routes/default')(app);
 require('./src/routes/delEmployeById')(app);
 require('./src/routes/delJobById')(app);
 require('./src/routes/getAllEmployees')(app);

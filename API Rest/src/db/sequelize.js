@@ -9,8 +9,9 @@ const { salariesTemplate, employeesTemplate, jobsTemplate } = require('./templat
 // Database connection infos
 let sequelize;
 
-if (process.env.NODE_ENV=== 'production') {
-	const sequelize = new Sequelize('mah6htgt6hpzebtv','krhhykk6sjwoaalr','ku0pnu8cg2ea05ri',{
+if (process.env.NODE_ENV === 'production') {
+	console.log("ITS PRODUCTION MODE")
+	sequelize = new Sequelize('mah6htgt6hpzebtv','krhhykk6sjwoaalr','ku0pnu8cg2ea05ri',{
 		host: 'q0h7yf5pynynaq54.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
 		dialect: 'mariadb',
 		dialectOptions: {
@@ -18,10 +19,11 @@ if (process.env.NODE_ENV=== 'production') {
 		}
 	})
 } else {
-sequelize = new Sequelize('api-salary', 'root', '', {
-	host: 'localhost',
-	dialect: 'mariadb',
-	dialectOptions: {
+	console.log("ITS Devil MODE")
+	sequelize = new Sequelize('api-salary', 'root', '', {
+		host: 'localhost',
+		dialect: 'mariadb',
+		dialectOptions: {
 		timezone: 'local',
 	},
 	logging: false
@@ -41,7 +43,8 @@ employees.belongsTo(jobs);
 const initDb = () => {
 
 	// Sync tables if in dev
-	if (process.env.NODE_ENV !== 'development') {
+	if (process.env.NODE_ENV !== 'production') {
+		console.log("ITS Dev MODE")
 		return sequelize.sync({force: true}).then(_ => {
 			// Create and fill salarygrid table
 			salariesTemplate.map(salary => {
@@ -78,7 +81,7 @@ const initDb = () => {
 		// Done
 		
 	} else {
-		console.log('Online Databases are going to be filled.');
+		console.log("ITS PRODUCTION MODE")
 		return sequelize.sync().then(_ => {
 			// Create and fill salarygrid table
 			salariesTemplate.map(salary => {
@@ -110,7 +113,7 @@ const initDb = () => {
 				});
 			})
 	
-			console.log('Online Databases filled.');
+			//console.log('Online Databases filled.');
 	})
 	// Done
 	}
