@@ -494,7 +494,6 @@ $(document).on('click', '#jobAddLine', function() {
 
 // Déclanchée quand on clique sur le bouton de confirmation d'ajout de job
 // Ajoute le job et sa grille de salaire à la BDD
-// WIP
 // TODO : gérer erreur
 $(document).on('click', '#jobConfirm', function() {
     const label = $("#jobLabel").val();
@@ -531,23 +530,26 @@ $(document).on('click', '#jobConfirm', function() {
             }
 
             // Requête AJAX à l'API
-            // $.ajax({
-            //     type: "POST",
-            //     url: apiEndpoint + "/salarygrid",   
-            //     data: JSON.stringify(salaryGrid),
-            //     contentType: "application/json",
-            //     success: function(result) {
-            //         console.log(result);
-            //     },
-            //     error: function(response) {
-            //         console.log("API failed. See error below.");
-            //         console.log(response);
-            //     }
-            // });
+            $.ajax({
+                type: "POST",
+                url: apiEndpoint + "/salarygrid",   
+                data: JSON.stringify(salaryGrid),
+                contentType: "application/json",
+                success: function(result) {
+                    launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> a été ajouté avec succès.`);
+                    getAllJobs();
+                },
+                error: function(response) {
+                    console.log("API failed. See error below.");
+                    console.log(response);
+                    launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> n'a pas pu être ajouté. Veuillez reessayer.`)
+                }
+            });
         },
         error: function(response) {
             console.log("API failed. See error below.");
             console.log(response);
+            launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> n'a pas pu être ajouté. Veuillez reessayer.`)
         }
     });
 });

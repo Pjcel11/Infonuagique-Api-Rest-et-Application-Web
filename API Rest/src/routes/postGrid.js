@@ -10,9 +10,9 @@ module.exports = (app) => {
         for (const line of Object.values(newGrid)) {
             try {
                 salaryGrid.create(line)
-            .then(
-                message += `La ligne ${line.jobId} ${line.level} ${line.durationMonths}' was created successfully.`
-            )
+                .then(
+                    message += `La ligne ${line.jobId} ${line.level} ${line.durationMonths}' was created successfully.`
+                )
             }catch{ 
                 error => {
                     if(error instanceof ValidationError) {
