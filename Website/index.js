@@ -417,8 +417,7 @@ $(document).on('click', '.calcE', function() {
     });
 });
 
-$(document).on('click', '#calcAll', function() {
-    console.log("test")
+$(document).on('click', function() {
     const employeesNb = $('.employeesRows').length
     var sumSalaries = 0;
     var jobIdArray = [];
@@ -474,7 +473,7 @@ $(document).on('click', '#calcAll', function() {
         $("#calcAllModal").modal("show");
     }
     else {
-        console.log("not working apparently")
+        launchBlankModal("Calcul de salaire", `Le salaire brut total des employés n'a pas pu être calculé. Veuillez reessayer.`);
 
     }
 });
