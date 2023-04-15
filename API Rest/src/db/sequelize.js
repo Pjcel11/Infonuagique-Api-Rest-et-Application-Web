@@ -53,7 +53,7 @@ const initDb = () => {
 				});
 			})
 
-			// Create and fill jobs table
+			// Create and fill jobs table 
 			jobsTemplate.map(job => {
 				jobs.create({
 					id: job.id,
