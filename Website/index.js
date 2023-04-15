@@ -417,7 +417,7 @@ $(document).on('click', '.calcE', function() {
     });
 });
 
-$(document).on('click', function() {
+$(document).on('click', '#calcAll', function() {
     const employeesNb = $('.employeesRows').length
     var sumSalaries = 0;
     var jobIdArray = [];
