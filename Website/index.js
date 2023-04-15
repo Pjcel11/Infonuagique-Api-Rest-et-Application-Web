@@ -11,7 +11,6 @@ $(document).ready(function() {
 
 // S'active au changement de valeur de la DDL
 // Affiche/cache les divs en fonction de la valeur choisie 
-// TODO : Ajouter appel fonction getSalaires
 $("#ddl").change(function() {
     switch(this.value) {
         case "employees": // Quand on sélectionne "Employées"
@@ -40,6 +39,9 @@ function launchBlankModal(title, text) {
     $("#blankModalText").html(text);
     $("#blankModal").modal('show');
 }
+
+
+
 
 ///////////////
 // EMPLOYEES //
@@ -158,7 +160,6 @@ $(document).on('click', '.editE', function() {
 // Activée au click sur le bouton de confirmation du modal d'ajout/modif d'un employé
 // Ajoute l'employé et l'affiche dans le tableau
 // Ou modifie l'employé existant
-// TODO : verifier valeurs des employés
 $(document).on('click', '#employeeConfirm', function() {
     // On récupere les valeurs des champs
     const firstName = $("#firstName").val();
@@ -168,67 +169,81 @@ $(document).on('click', '#employeeConfirm', function() {
     const jobId = $("#job").val();
     const level = $("#level").val();
 
-    // On recupere le type de requête à faire
-    const type = $("#employeeConfirm").data("type");
+    if ((!firstName || firstName == "") || 
+        (!lastName || lastName == "") || 
+        (!email || email == "") || 
+        (!date || date == "") || 
+        (!jobId || jobId == "") || 
+        (!level || level == "")) {
+        launchBlankModal("Ajout d'employé", `Le formulaire contient des champs non-remplis. Veuillez reessayer.`);
+    }
+    else if (Date.parse(date) > Date.now()) {
+        launchBlankModal("Ajout d'employé", `Le formulaire contient une date de début de contrat ultérieure à la date du jour. Veuillez reessayer.`);
+    }
+    else {
+        console.log(Date.parse(date) > Date.now())
+        // On recupere le type de requête à faire
+        const type = $("#employeeConfirm").data("type");
 
-    if (type == "add") {
-        // Ajout d'employé. On crée l'objet JSON
-        const employee = {
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": email,
-            "jobId": jobId,
-            "seniority": date,
-            "level": level
-        };
-    
-        // Requête AJAX à l'API
-        $.ajax({
-            type: "POST",
-            url: apiEndpoint + "/employees",   
-            data: JSON.stringify(employee),
-            contentType: "application/json",
-            success: function() {
-                getAllEmployees();
-                launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> a été ajouté à la base de données.`);
-            },
-            error: function(response) {
-                console.log("API failed. See error below.");
-                console.log(response);
-                launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être ajouté à la base de données. Veuillez reessayer.`);
-            }
-        });
-    } 
-    else if (type == "edit") {
-        // Modification d'employé. On récupère l'ID de l'employé à modifier
-        const id = $("#employeeConfirm").data("id");
-        // On crée l'objet JSON
-        const employee = {
-            "id": id,
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": email,
-            "jobId": jobId,
-            "seniority": date,
-            "level": level
-        };
+        if (type == "add") {
+            // Ajout d'employé. On crée l'objet JSON
+            const employee = {
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "jobId": jobId,
+                "seniority": date,
+                "level": level
+            };
+        
+            // Requête AJAX à l'API
+            $.ajax({
+                type: "POST",
+                url: apiEndpoint + "/employees",   
+                data: JSON.stringify(employee),
+                contentType: "application/json",
+                success: function() {
+                    getAllEmployees();
+                    launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> a été ajouté à la base de données.`);
+                },
+                error: function(response) {
+                    console.log("API failed. See error below.");
+                    console.log(response);
+                    launchBlankModal("Ajout d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être ajouté à la base de données. Veuillez reessayer.`);
+                }
+            });
+        } 
+        else if (type == "edit") {
+            // Modification d'employé. On récupère l'ID de l'employé à modifier
+            const id = $("#employeeConfirm").data("id");
+            // On crée l'objet JSON
+            const employee = {
+                "id": id,
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "jobId": jobId,
+                "seniority": date,
+                "level": level
+            };
 
-        // Requête AJAX à l'API
-        $.ajax({
-            type: "PUT",
-            url: apiEndpoint + "/employees/" + id,   
-            data: JSON.stringify(employee),
-            contentType: "application/json",
-            success: function(response) {
-                getAllEmployees();
-                launchBlankModal("Modification d'employé", `L'employé <b>${lastName} ${firstName}</b> a été modifié avec succès.`);
-            },
-            error: function(response) {
-                console.log("API failed. See error below.");
-                console.log(response);
-                launchBlankModal("Modification d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être modifié. Veuillez reessayer.`);
-            }
-        });
+            // Requête AJAX à l'API
+            $.ajax({
+                type: "PUT",
+                url: apiEndpoint + "/employees/" + id,   
+                data: JSON.stringify(employee),
+                contentType: "application/json",
+                success: function(response) {
+                    getAllEmployees();
+                    launchBlankModal("Modification d'employé", `L'employé <b>${lastName} ${firstName}</b> a été modifié avec succès.`);
+                },
+                error: function(response) {
+                    console.log("API failed. See error below.");
+                    console.log(response);
+                    launchBlankModal("Modification d'employé", `L'employé <b>${lastName} ${firstName}</b> n'a pas pu être modifié. Veuillez reessayer.`);
+                }
+            });
+        }
     }
 });
 
@@ -250,7 +265,6 @@ $(document).on('click', '.delE', function() {
 
 // Activée au click sur le bouton de confirmation du modal pour supprimer d'un employé
 // Supprime l'employé et l'enlève du tableau
-// TODO : gerer erreur
 $(document).on('click', '#deleteEmployeeConfirm', function() {
     // On récupère les infos de l'employé
     const employeeId = $(this).data("id");
@@ -268,9 +282,13 @@ $(document).on('click', '#deleteEmployeeConfirm', function() {
         error: function(response) {
             console.log("API failed. See error below.");
             console.log(response);
+            launchBlankModal("Suppression d'employé", `L'employé <b>${employeeName}</b> n'a pas pu être supprimé. Veuillez reessayer.`)
         }
     });
 });
+
+
+
 
 //////////////
 // SALARIES //
@@ -346,7 +364,6 @@ $("#ddlSalaries").change(function() {
 
 // Activée quand on clique un bouton de calcul de salaire
 // Calcule le salaire de l'employé référencé et l'affiche à l'écran
-// TODO : Gérer erreur
 $(document).on('click', '.calcE', function() {
     // On récupère les infos de l'employé
     const employeeName = $(this).data("name");
@@ -396,9 +413,13 @@ $(document).on('click', '.calcE', function() {
         error: function(response) {
             console.log("API failed. See error below.");
             console.log(response);
+            launchBlankModal("Calcul de salaire", `Le salaire de ${employeeName} n'a pas pu être calculé. Veuillez reessayer <b>${salary}€.</b>`)
         }
     });
 });
+
+
+
 
 //////////
 // JOBS //
@@ -435,7 +456,6 @@ function getAllJobs() {
 }
 
 // Récupère la liste des postes et l'ajoute dans les select d'ajout et de modification d'employé
-// TODO : Gérer erreur
 function getAllJobsEmployee() {
     // On vide les select pour remettre les lignes et eviter les doublons
     $("#job").empty();
@@ -494,7 +514,6 @@ $(document).on('click', '#jobAddLine', function() {
 
 // Déclanchée quand on clique sur le bouton de confirmation d'ajout de job
 // Ajoute le job et sa grille de salaire à la BDD
-// TODO : gérer erreur
 $(document).on('click', '#jobConfirm', function() {
     const label = $("#jobLabel").val();
 
@@ -542,14 +561,14 @@ $(document).on('click', '#jobConfirm', function() {
                 error: function(response) {
                     console.log("API failed. See error below.");
                     console.log(response);
-                    launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> n'a pas pu être ajouté. Veuillez reessayer.`)
+                    launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> n'a pas pu être ajouté. Veuillez reessayer.`);
                 }
             });
         },
         error: function(response) {
             console.log("API failed. See error below.");
             console.log(response);
-            launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> n'a pas pu être ajouté. Veuillez reessayer.`)
+            launchBlankModal("Ajout de poste", `Le poste <b>${label}</b> n'a pas pu être ajouté. Veuillez reessayer.`);
         }
     });
 });
