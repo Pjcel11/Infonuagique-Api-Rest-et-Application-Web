@@ -453,8 +453,8 @@ $(document).on('click', '#calcAll', function() {
                 else
                     salary = (salaryInfo.increasedIndex * indexValue).toFixed(2);
 
-                sumSalaries += salary;
-                jobIdSalary[job] += salary;
+                sumSalaries += parseInt(salary);
+                jobIdSalary[job] += parseInt(salary);
             },
             error: function(response) {
                 console.log("API failed. See error below.");
@@ -465,9 +465,10 @@ $(document).on('click', '#calcAll', function() {
     }
 
     if (isAlright) {
+        $(".calcAllRows").remove();
         $("#calcAllTotal").html(`Le salaire brut total des employés est de <b>${sumSalaries}€</b>.`);
         for (const jobId of jobIdArray) {
-            $("#calcAllTable tbody").append(`<tr><td>${jobLabelArray[jobId]}</td><td>${jobIdSalary[jobId]}</td></tr>`)
+            $("#calcAllTable tbody").append(`<tr class="calcAllRows"><td>${jobLabelArray[jobId]}</td><td><b>${jobIdSalary[jobId]}€</b></td></tr>`)
         }
         $("#calcAllModal").modal("show");
     }
