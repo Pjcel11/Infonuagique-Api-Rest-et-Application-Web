@@ -54,6 +54,7 @@
                 </tr>
             </table>
             <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé"><i class="fa-solid fa-user-plus"></i></button>
+            <button id="calcAll" class="btn btn-success" title="Calculer le salaire brut de tous les employés"><i class="fa-solid fa-money-bill-transfer"></i></button>
         </div>
 
         <!-- Div contenant les grilles de salaire -->
@@ -199,6 +200,33 @@
                 <div class="modal-footer">
                     <button id="jobConfirm" type="button" class="btn btn-success" data-bs-dismiss="modal">Ajouter</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="calcAllModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Calcul de salaire</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="calcAllTotal"></p>
+                    <p>La répartition des salaires bruts selon le poste est la suivante :</p>
+                    <table id="calcAllTable">
+                        <thead>
+                            <tr>
+                                <th>Poste</th>
+                                <th>Σ Salaires</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirmer</button>
                 </div>
             </div>
         </div>

@@ -85,7 +85,6 @@ function getAllEmployees() {
         contentType: "application/json",
         success: function(result) {
             const employees = result.data;
-            console.log(employees)
             // On ajoute une ligne pour chaque employé
             for (const employee of employees) {
                 // On ajoute des données au boutons avec les arguments "data-XXX=YYY".
@@ -100,7 +99,7 @@ function getAllEmployees() {
                                 <td>${employee.job.label}</td>
                                 <td title="${"À rejoint le " + employee.seniority}">${seniority}</td>
                                 <td>
-                                    <button id="calcE-${employee.id}" class="btn btn-success calcE" data-name="${employee.lastName} ${employee.firstName}" data-job="${employee.jobId}" data-months="${months}" data-level="${employee.level}" title="Calculer le salaire de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
+                                    <button id="calcE-${employee.id}" class="btn btn-success calcE" data-name="${employee.lastName} ${employee.firstName}" data-job="${employee.jobId}" data-months="${months}" data-level="${employee.level}" title="Calculer le salaire brut de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-money-check-dollar"></i></button>
                                     <button id="editE-${employee.id}" class="btn btn-warning editE" data-id="${employee.id}" data-lastname="${employee.lastName}" data-firstname="${employee.firstName}" data-email="${employee.email}" data-job="${employee.jobId}" data-seniority="${employee.seniority}" data-level="${employee.level}" title="Modifier le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-user-pen"></i></button>
                                     <button id="delE-${employee.id}" class="btn btn-danger delE" data-id="${employee.id}" data-name="${employee.lastName} ${employee.firstName}" title="Supprimer le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-trash"></i></button>
                                 </td>
@@ -408,14 +407,73 @@ $(document).on('click', '.calcE', function() {
                     }
                 });
             }
-            launchBlankModal("Calcul de salaire", `Le salaire de ${employeeName} est <b>${salary}€.</b>`)
+            launchBlankModal("Calcul de salaire", `Le salaire brut de ${employeeName} est <b>${salary}€.</b>`)
         },
         error: function(response) {
             console.log("API failed. See error below.");
             console.log(response);
-            launchBlankModal("Calcul de salaire", `Le salaire de ${employeeName} n'a pas pu être calculé. Veuillez reessayer <b>${salary}€.</b>`)
+            launchBlankModal("Calcul de salaire", `Le salaire brut de ${employeeName} n'a pas pu être calculé. Veuillez reessayer <b>${salary}€.</b>`)
         }
     });
+});
+
+$(document).on('click', '#calcAll', function() {
+    const employeesNb = $('.employeesRows').length
+    var sumSalaries = 0;
+    var jobIdArray = [];
+    var jobIdSalary = [];
+    var jobLabelArray = [];
+    var isAlright = true;
+
+    for (var i = 0; i < employeesNb; i++) {
+        const jobLabel = $(`#employeesTable tr.employeesRows:eq(${i}) td:nth-child(4)`).html();
+        const salaryButton = $(`#employeesTable tr.employeesRows:eq(${i}) td:nth-child(6) button:nth-child(1)`);
+        const job = salaryButton.data("job");
+        const level = salaryButton.data("level");
+        const months = salaryButton.data("months");
+
+        if (!jobIdArray.includes(job)) {
+            jobIdArray.push(job);
+            jobLabelArray[job] = jobLabel;
+            jobIdSalary[job] = 0;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: apiEndpoint + "/salarygrid/" + job + "/" + months + "/" + level,   
+            contentType: "application/json",
+            async: false,
+            success: function(result) {
+                const salaryInfo = result.data[0];
+                var salary = 0;
+                // Si salaire non null, on a récupéré le salaire
+                // Sinon, on le calcule manuellement
+                if (salaryInfo.grossSalary != null)
+                    salary = salaryInfo.grossSalary;
+                else
+                    salary = (salaryInfo.increasedIndex * indexValue).toFixed(2);
+
+                sumSalaries += salary;
+                jobIdSalary[job] += salary;
+            },
+            error: function(response) {
+                console.log("API failed. See error below.");
+                console.log(response);
+                isAlright = false;
+            }
+        });
+    }
+
+    if (isAlright) {
+        $("#calcAllTotal").html(`Le salaire brut total des employés est de <b>${sumSalaries}€</b>.`);
+        for (const jobId of jobIdArray) {
+            $("#calcAllTable tbody").append(`<tr><td>${jobLabelArray[jobId]}</td><td>${jobIdSalary[jobId]}</td></tr>`)
+        }
+        $("#calcAllModal").modal("show");
+    }
+    else {
+
+    }
 });
 
 
