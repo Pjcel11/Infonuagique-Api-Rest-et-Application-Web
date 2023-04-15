@@ -27,19 +27,25 @@
         <h1 class="display-3 text-center">Employés et Salaires</h1>
 
         <!-- Div contenant les DropDownLists (menus déroulants) pour le choix de grille et choix de poste pour les grilles salariales -->
-        <div id="ddlDiv">
-            <!-- DDL de base -->
-            <label for="ddl" class="form-label">Choisissez la grille à afficher</label>
-            <select id="ddl" class="form-select w-25" padding="16px" >
-                <option value="employees" selected>Employés</option>
-                <option value="salaries">Salaires</option>
-                <option value="jobs">Postes</option>
-            </select>
-
-            <!-- DDL de sélection de grille de salaire -->
-            <select id="ddlSalaries" class="form-select w-25 salaries"></select>
+        <div class="container text-center">
+            <div class="row">
+                <div id="ddlDiv" class="col">
+                    <!-- DDL de base -->
+                    <label for="ddl" class="form-label">Choisissez la grille à afficher</label>
+                    <select id="ddl" class="form-select w-35 " padding="16px" >
+                        <option value="employees" selected>Employés</option>
+                        <option value="salaries">Salaires</option>
+                        <option value="jobs">Postes</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <!-- DDL de sélection de grille de salaire -->
+                    <label id="ddlSalariesLabel" for="ddlSalaries" class="form-label">Choisissez le poste concerné</label>
+                    <select id="ddlSalaries" class="form-select w-35 salaries"></select>
+                </div>
+            </div>
         </div>
-
+        
         <!-- Div contenant la grille des employés -->
         <div id="employeesDiv" class="employees">
             <!-- TODO : Search bar -->
