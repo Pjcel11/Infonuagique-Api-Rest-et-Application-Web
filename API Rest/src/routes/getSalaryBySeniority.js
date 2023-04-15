@@ -16,7 +16,6 @@ module.exports = (app) => {
 			raw: true
 		})
 		.then(e => {
-			console.log(e)
 			const minDuration = e[0].minDuration;
 
 			salaryGrid.findAll({ 
@@ -29,7 +28,6 @@ module.exports = (app) => {
 			})
 			.then(f => {
 				const levelCount = f[0].levelCount;
-				console.log(f)
 
 				if (levelCount > 1) {
 					salaryGrid.findAll( {
