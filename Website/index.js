@@ -418,6 +418,7 @@ $(document).on('click', '.calcE', function() {
 });
 
 $(document).on('click', '#calcAll', function() {
+    console.log("test")
     const employeesNb = $('.employeesRows').length
     var sumSalaries = 0;
     var jobIdArray = [];
@@ -473,6 +474,7 @@ $(document).on('click', '#calcAll', function() {
         $("#calcAllModal").modal("show");
     }
     else {
+        console.log("not working apparently")
 
     }
 });
