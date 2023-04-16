@@ -138,7 +138,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p id="employeeModalDesc"></p>
+                    <p id="employeeModalDesc" class="form"></p>
                     <div>
                         <label for="lastName" class="col-form-label">Nom :</label>
                         <input id="lastName" type="text" class="form-control">
@@ -160,7 +160,7 @@
                         <select id="job" class="form-select"></select>
                     </div>
                     <div>
-                        <label for="level" class="col-form-label">Poste :</label>
+                        <label for="level" class="col-form-label">Echelon:</label>
                         <input id="level" type="number" class="form-control" value="1" min="1" max="10" step="1"></select>
                     </div> 
                 </div>
@@ -183,13 +183,13 @@
                 <div class="modal-body">
                     <!-- Libellé -->
                     <div>
-                        <label for="jobLabel" class="col-form-label">Intitulé :</label>
-                        <input id="jobLabel" type="text" class="form-control">
+                        <label for="jobLabel" class="col-form-label">Intitulé du poste:</label>
+                        <input id="jobLabel" type="text" class="form-control mb-2">
                     </div>
 
                     <!-- Grille -->
                     <div id="jobSalaryGrid">
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col">
                                 <input id="level-0" type="text" class="form-control" placeholder="Echelon">
                             </div>
@@ -225,7 +225,7 @@
                 <div class="modal-body">
                     <p id="calcAllTotal"></p>
                     <p>La répartition des salaires bruts selon le poste est la suivante :</p>
-                    <table id="calcAllTable">
+                    <table id="calcAllTable" class="table table-striped-columns">
                         <thead>
                             <tr>
                                 <th>Poste</th>
