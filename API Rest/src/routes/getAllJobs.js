@@ -5,11 +5,11 @@ module.exports = (app) => {
 		jobs.findAll({ order: ['id'] }) // Order results by ID
 		.then(e => {
 		  	const message = 'Job list fetched successfully'
-		 	res.status(200).json({status:200, message, data: e })
+		 	res.status(200).json({message, data: e})
 		})
 		.catch(error => {
 		 	const message = `Job list could not be fetched. Please retry.`
-		  	res.status(500).json({status:500, message, data: error })
+		  	res.status(500).json({message, data: error})
 		});
 	})
 }

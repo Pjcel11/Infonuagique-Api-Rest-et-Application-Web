@@ -7,7 +7,7 @@ module.exports = (app) => {
 		.then(employeToDelete => {
 			if (employeToDelete === null) {
 				const message = `Employee id #${req.params.id} doesn't exit. Please retry.`
-				return res.status(404).json({status:404, message})
+				return res.status(404).json({message})
 			}
 	  
 			const employeDeleted = employeToDelete;
@@ -16,12 +16,12 @@ module.exports = (app) => {
 			})
 			.then(_ => {
 				const message = `Employee id #${employeDeleted.id} (${employeDeleted.firstName} ${employeDeleted.lastName}) was successfully deleted.`
-				res.status(200).json({status:200, message, data: employeDeleted })
+				res.status(200).json({message, data: employeDeleted})
 			})
 		})
 		.catch( error => {
 			const message= `Employee id #${req.params.id} could not be deleted. Please retry.`
-			res.status(500).json({status:500,message, data:error})
+			res.status(500).json({message, data:error})
 		})
 	})
 }

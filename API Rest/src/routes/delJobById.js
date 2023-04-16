@@ -7,7 +7,7 @@ module.exports = (app) => {
 		.then(jobToDelete => {
 			if (jobToDelete === null) {
 				const message = `Job id #${req.params.id} doesn't exist. Please retry.`
-				return res.status(404).json({status:404, message})
+				return res.status(404).json({message})
 			}
 	  
 			const jobDeleted = jobToDelete;
@@ -16,12 +16,12 @@ module.exports = (app) => {
 			})
 			.then(_ => {
 				const message = `Job id #${jobDeleted.id} (${jobDeleted.label}) was successfully deleted.`
-				res.status(200).json({status:200, message, data: jobDeleted })
+				res.status(200).json({message, data: jobDeleted})
 			})
 		})
 		.catch( error => {
 			const message= `Job id #${req.params.id} couldn't be deleted. Please retry.`
-			res.status(500).json({status:500,message, data:error})
+			res.status(500).json({message, data:error})
 		})
 	})
 }

@@ -15,7 +15,7 @@ module.exports = (app) => {
 					return res.status(404).json({message})
 				}
 				const message = `Employee id #${e.id} (${e.firstName} ${e.lastName}) was modified successfully.`
-				res.status(200).json({message, data: e })
+				res.status(200).json({message, data: e})
 			})
 		})
 		.catch( error => {

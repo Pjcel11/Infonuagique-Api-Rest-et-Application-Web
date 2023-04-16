@@ -40,11 +40,11 @@ module.exports = (app) => {
 					})
 					.then(g => {
 						  const message = 'Salary fetched successfully.'
-						 res.status(200).json({status:200, message, data: g})
+						 res.status(200).json({message, data: g})
 					})
 					.catch(error => {
 						 const message = `Salary could not be fetched. Please retry.`
-						  res.status(500).json({status:500, message, data: error })
+						  res.status(500).json({message, data: error})
 					});
 				}
 				else {
@@ -57,22 +57,22 @@ module.exports = (app) => {
 					})
 					.then(g => {
 						  const message = 'Salary fetched successfully.'
-						 res.status(200).json({status:200, message, data: g})
+						 res.status(200).json({message, data: g})
 					})
 					.catch(error => {
 						 const message = `Salary could not be fetched. Please retry.`
-						  res.status(500).json({status:500, message, data: error })
+						  res.status(500).json({message, data: error})
 					});
 				}
 			})
 			.catch(error => {
 				const message = `Salary count could not be fetched. Please retry.`
-				res.status(500).json({status:500, message, data: error })
+				res.status(500).json({message, data: error})
 			});
 		})
 		.catch(error => {
 			const message = `Minimum salary could not be fetched. Please retry.`
-			res.status(500).json({status:500, message, data: error })
+			res.status(500).json({message, data: error})
 		});  
 	})
 }
