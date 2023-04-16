@@ -1,4 +1,4 @@
-const apiEndpoint = "http://localhost:5000";
+const apiEndpoint = "https://serene-beyond-46661.herokuapp.com";
 const indexValue = 4.85003;
 
 // Démarrer le site web http-server -p 3000
