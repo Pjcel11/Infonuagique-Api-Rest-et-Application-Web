@@ -180,7 +180,6 @@ $(document).on('click', '#employeeConfirm', function() {
         launchBlankModal("Ajout d'employé", `Le formulaire contient une date de début de contrat ultérieure à la date du jour. Veuillez reessayer.`);
     }
     else {
-        console.log(Date.parse(date) > Date.now())
         // On recupere le type de requête à faire
         const type = $("#employeeConfirm").data("type");
 
@@ -602,7 +601,7 @@ $(document).on('click', '#jobConfirm', function() {
                     "jobId": jobId,
                     "level": $(`#level-${i}`).val(),
                     "increasedIndex": $(`#index-${i}`).val(),
-                    "durationMonths": $(`#months-${i}`).val(),
+                    "durationMonths": ($(`#months-${i}`).val() == "" ? null : $(`#months-${i}`).val()),
                 };
                 // On ajoute cet objet à l'objet JSON parent
                 salaryGrid[i] = salaryLine;
