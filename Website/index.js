@@ -363,7 +363,7 @@ $("#ddlSalaries").change(function() {
 
 // Activée quand on clique un bouton de calcul de salaire
 // Calcule le salaire de l'employé référencé et l'affiche à l'écran
-$(document).on('click', '.calcE', function() {
+$(document).on('click', '.calcE', function() { 
     // On récupère les infos de l'employé
     const employeeName = $(this).data("name");
     const employeeLevel = $(this).data("level");
