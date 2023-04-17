@@ -104,7 +104,7 @@ function getAllEmployees() {
                                     <button id="delE-${employee.id}" class="btn btn-danger delE" data-id="${employee.id}" data-name="${employee.lastName} ${employee.firstName}" title="Supprimer le profil de ${employee.firstName} ${employee.lastName}"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>`;
-                $('#employeesTable tr:last').after(html);
+                $('#employeesTable tbody').append(html);
             }
         },
         error: function(response) {
@@ -114,7 +114,7 @@ function getAllEmployees() {
             const html = `<tr id="employee-null" class="employeesRows">
                                 <td colspan=6>Aucun employé trouvé</td>
                             </tr>`;
-            $('#employeesTable tr:last').after(html);
+            $('#employeesTable tbody').append(html);
         }
     });
 }
@@ -335,7 +335,7 @@ $("#ddlSalaries").change(function() {
                 const html = `<tr id="salary-null-null" class="salariesRows">
                                 <td colspan=4>Aucune grille indiciaire trouvée pour ce poste</td>
                             </tr>`;
-                $('#salariesTable tr:last').after(html);
+                $('#salariesTable tbody').append(html);
             } else {
                 // On ajoute chaque ligne de la grille à la table
                 for (const salary of salaries) {
@@ -345,7 +345,7 @@ $("#ddlSalaries").change(function() {
                                     <td>${salary.durationMonths == null ? "-" : salary.durationMonths}</td>
                                     <td>${salary.grossSalary == null ? "Inconnu" : salary.grossSalary}</td>
                                 </tr>`;
-                    $('#salariesTable tr:last').after(html);
+                    $('#salariesTable tbody').append(html);
                 } 
             }
         },
@@ -355,7 +355,7 @@ $("#ddlSalaries").change(function() {
             const html = `<tr id="salary-null-null" class="salariesRows">
                                 <td colspan=4>Aucune grille indiciaire trouvée pour ce poste</td>
                             </tr>`;
-            $('#salariesTable tr:last').after(html);
+            $('#salariesTable tbody').append(html);
         }
     });
 });
@@ -501,7 +501,7 @@ function getAllJobs() {
                 const html = `<tr id="job-${job.id}" class="jobRows">
                                 <td>${job.label}</td>
                             </tr>`;
-                $('#jobsTable tr:last').after(html);
+                $('#jobsTable tbody').append(html);
             }
         },
         error: function(response) {
@@ -510,7 +510,8 @@ function getAllJobs() {
             const html = `<tr id="job-null" class="jobRows">
                             <td>Aucun poste trouvé</td>
                         </tr>`;
-            $('#jobsTable tr:last').after(html);        }
+            $('#jobsTable tbody').append(html);        
+        }
     });
 }
 
@@ -554,7 +555,7 @@ $(document).on('click', '#jobAddLine', function() {
     // On récupère l'ID de la ligne à ajouter
     const id = $(this).data("id");
     // HTML de la ligne
-    const html = `<div class="row newJobRows">
+    const html = `<div class="row mb-1 newJobRows">
                     <div class="col">
                         <input id="level-${id}" type="text" class="form-control" placeholder="Echelon">
                     </div>
@@ -562,7 +563,7 @@ $(document).on('click', '#jobAddLine', function() {
                         <input id="index-${id}" type="text" class="form-control" placeholder="Indice majoré">
                     </div>
                     <div class="col">
-                        <input id="months-${id}" type="text" class="form-control" placeholder="Ancienneté (mois)">
+                        <input id="months-${id}" type="text" class="form-control" placeholder="Ancienneté">
                     </div>
                 </div>`;
     // On ajoute la ligne

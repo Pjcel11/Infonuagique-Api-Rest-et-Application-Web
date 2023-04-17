@@ -49,16 +49,19 @@
                 <div class="grid row">
                     <!-- Div contenant la grille des employés -->
                     <div id="employeesDiv" class="employees">
-                        <!-- TODO : Search bar -->
                         <table id="employeesTable" class="table table-striped-columns">
-                            <tr id="employeesTableHeader">
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>Adresse email</th>
-                                <th>Poste</th>
-                                <th>Ancienneté</th>
-                                <th>Actions</th>
-                            </tr>
+                            <thead>
+                                <tr id="employeesTableHeader">
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Adresse email</th>
+                                    <th>Poste</th>
+                                    <th>Ancienneté</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider" style="border-top-color: lightgray">
+                            </tbody>
                         </table>
                         <button id="addEmployeButton" class="btn btn-primary" title="Ajouter un employé"><i class="fa-solid fa-user-plus"></i></button>
                         <button id="calcAll" class="btn btn-success" title="Calculer le salaire brut de tous les employés"><i class="fa-solid fa-money-bill-transfer"></i></button>
@@ -67,21 +70,29 @@
                     <!-- Div contenant les grilles de salaire -->
                     <div id="salariesDiv" class="salaries">
                         <table id="salariesTable" class="table table-striped-columns">
-                            <tr id="salariesTableHeader">
-                                <th>Echelon</th>
-                                <th>Indice Majoré</th>
-                                <th>Ancienneté (mois)</th>
-                                <th>Salarie brut</th>
-                            </tr>
+                            <thead>
+                                <tr id="salariesTableHeader">
+                                    <th>Echelon</th>
+                                    <th>Indice Majoré</th>
+                                    <th>Ancienneté (mois)</th>
+                                    <th>Salarie brut</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider" style="border-top-color: lightgray">
+                            </tbody>
                         </table>
                     </div>
 
                     <!-- Div contenant la grille de poste -->
                     <div id="jobsDiv" class="jobs">
                         <table id="jobsTable" class="table table-striped-columns">
-                            <tr id="JobsTableHeader">
-                                <th>Poste</th>
-                            </tr>
+                            <thead>
+                                <tr id="JobsTableHeader">
+                                    <th>Poste</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider" style="border-top-color: lightgray">
+                            </tbody>
                         </table>
                         <button id="addJobButton" class="btn btn-primary" title="Ajouter un poste"><i class="fa-solid fa-user-plus"></i></button>
                     </div>
@@ -139,28 +150,28 @@
                 </div>
                 <div class="modal-body">
                     <p id="employeeModalDesc" class="form"></p>
-                    <div>
-                        <label for="lastName" class="col-form-label">Nom :</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Nom</span>
                         <input id="lastName" type="text" class="form-control">
                     </div>
-                    <div>
-                        <label for="firstName" class="col-form-label">Prénom :</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Prénom :</span>
                         <input id="firstName" type="text" class="form-control">
                     </div>
-                    <div>
-                        <label for="email" class="col-form-label">Adresse email :</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Adresse email :</span>
                         <input id="email" type="text" class="form-control">
                     </div>
-                    <div>
-                        <label for="date" class="col-form-label">Date de début de contrat :</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Date de début de contrat :</span>
                         <input id="date" type="date" class="form-control">
                     </div>
-                    <div>
-                        <label for="job" class="col-form-label">Poste :</label>
+                    <div class="input-group mb-3">
+                        <label for="job" class="input-group-text">Poste :</label>
                         <select id="job" class="form-select"></select>
                     </div>
-                    <div>
-                        <label for="level" class="col-form-label">Echelon:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Echelon :</span>
                         <input id="level" type="number" class="form-control" value="1" min="1" max="10" step="1"></select>
                     </div> 
                 </div>
@@ -175,21 +186,22 @@
     <!-- Modal pour l'ajout d'un poste -->
     <div id="jobModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content ">
                 <div class="modal-header">
                     <h5 class="modal-title">Ajout d'un poste</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Libellé -->
-                    <div>
-                        <label for="jobLabel" class="col-form-label">Intitulé du poste:</label>
-                        <input id="jobLabel" type="text" class="form-control mb-2">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Intitulé :</span>
+                        <input id="jobLabel" type="text" class="form-control">
                     </div>
 
                     <!-- Grille -->
                     <div id="jobSalaryGrid">
-                        <div class="row mb-2">
+                        <label class="input-group-text mb-1">Grille de salaire</label>
+                        <div class="row mb-1">
                             <div class="col">
                                 <input id="level-0" type="text" class="form-control" placeholder="Echelon">
                             </div>
@@ -197,13 +209,13 @@
                                 <input id="index-0" type="text" class="form-control" placeholder="Indice majoré">
                             </div>
                             <div class="col">
-                                <input id="months-0" type="text" class="form-control" placeholder="Ancienneté (mois)">
+                                <input id="months-0" type="text" class="form-control" placeholder="Ancienneté">
                             </div>
                         </div>
                     </div>
                     
                     <!-- Bouton ajouter ligne -->
-                    <div>
+                    <div class="text-center">
                         <button id="jobAddLine" type="button" class="btn btn-success" data-id="1"><i class="fa-solid fa-plus"></i></button>
                     </div>
                 </div>
